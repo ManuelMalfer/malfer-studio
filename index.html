@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Malfer Studio — Foto, siti e social per ristoranti e hotel</title>
+<meta name="description" content="Fotografia, siti web e gestione social per ristoranti e hotel sul Lago di Garda e in Trentino. Un solo referente, dal servizio fotografico al sito ai post di ogni mese.">
+<meta property="og:title" content="Malfer Studio">
+<meta property="og:description" content="Foto, siti e social per ristoranti e hotel sul Lago di Garda e in Trentino.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://studio.malfer.it/">
+<meta name="theme-color" content="#16181A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2316181A'/%3E%3Cpath d='M14 24V14h10M40 14h10v10M50 40v10H40M24 50H14V40' fill='none' stroke='%23C2412D' stroke-width='5'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Arial Black,Arial' font-weight='900' font-size='24' fill='%23F4F2EE'%3EM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --grafite:#16181A; --carta:#F4F2EE; --pomodoro:#C2412D; --argento:#8C8F91;
+    --testo-chiaro:#D8D5CE; --testo-medio:#4A4D50; --sabbia:#EAE6DE;
+    --display:"Archivo","Arial Black",Arial,sans-serif;
+    --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *,*::before,*::after{box-sizing:inherit}
+  html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+  body{margin:0;background:var(--carta);color:var(--grafite);font-family:var(--body);font-size:1.0625rem;line-height:1.6}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--pomodoro);outline-offset:3px}
+  .salta{position:absolute;left:-999px;top:8px;background:var(--carta);color:var(--grafite);padding:10px 14px;z-index:20}
+  .salta:focus{left:8px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* mirino: i quattro angoli */
+  .mirino{position:relative}
+  .mirino>i{position:absolute;width:var(--a,26px);height:var(--a,26px);border:0 solid var(--pomodoro);pointer-events:none}
+  .mirino>i:nth-child(1){top:0;left:0;border-top-width:var(--s,4px);border-left-width:var(--s,4px)}
+  .mirino>i:nth-child(2){top:0;right:0;border-top-width:var(--s,4px);border-right-width:var(--s,4px)}
+  .mirino>i:nth-child(3){bottom:0;left:0;border-bottom-width:var(--s,4px);border-left-width:var(--s,4px)}
+  .mirino>i:nth-child(4){bottom:0;right:0;border-bottom-width:var(--s,4px);border-right-width:var(--s,4px)}
+
+  /* testata */
+  header{background:var(--grafite);color:var(--carta)}
+  .barra{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-top:18px;padding-bottom:18px}
+  .logo{display:inline-flex;flex-direction:column;align-items:center;padding:8px 14px;text-decoration:none;--a:10px;--s:2px}
+  .logo b{font-family:var(--display);font-weight:800;font-size:1.35rem;line-height:1;letter-spacing:.03em}
+  .logo small{font-family:var(--display);font-weight:500;font-size:.5rem;letter-spacing:.6em;padding-left:.6em;margin-top:3px}
+  nav ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 26px}
+  nav a{text-decoration:none;font-size:.95rem;color:var(--testo-chiaro)}
+  nav a:hover{color:var(--carta)}
+
+  /* apertura */
+  .apertura{background:var(--grafite);color:var(--carta);padding:56px 0 96px}
+  .inquadratura{--a:clamp(30px,6vw,64px);--s:clamp(4px,.7vw,7px);padding:clamp(36px,7vw,88px) clamp(24px,6vw,80px)}
+  .inquadratura h1{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,7.4vw,5.6rem);line-height:.98;letter-spacing:-.01em;max-width:13ch}
+  .inquadratura p{margin:28px 0 0;max-width:46ch;font-size:clamp(1.05rem,1.6vw,1.25rem);color:var(--testo-chiaro)}
+  .azioni{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+  .bottone{display:inline-block;background:var(--pomodoro);color:#fff;text-decoration:none;font-weight:600;padding:15px 26px;border-radius:3px}
+  .bottone:hover{background:#A83826}
+  .bottone.vuoto{background:transparent;color:var(--carta);border:1px solid #5E6164}
+  .bottone.vuoto:hover{border-color:var(--carta);background:transparent}
+
+  @media (prefers-reduced-motion:no-preference){
+    .inquadratura>i{animation:metti-a-fuoco .9s cubic-bezier(.2,.7,.2,1) both}
+    .inquadratura>i:nth-child(1){--dx:-28px;--dy:-28px}
+    .inquadratura>i:nth-child(2){--dx:28px;--dy:-28px}
+    .inquadratura>i:nth-child(3){--dx:-28px;--dy:28px}
+    .inquadratura>i:nth-child(4){--dx:28px;--dy:28px}
+    @keyframes metti-a-fuoco{from{transform:translate(var(--dx),var(--dy));opacity:0}to{transform:none;opacity:1}}
+  }
+
+  /* sezioni */
+  section{padding:88px 0}
+  h2{margin:0 0 12px;font-family:var(--display);font-weight:800;font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.05}
+  .intro{margin:0 0 44px;max-width:56ch;color:var(--testo-medio)}
+
+  .servizi{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:48px 40px}
+  .servizio h3{margin:0 0 10px;font-family:var(--display);font-weight:800;font-size:1.5rem}
+  .servizio h3::before{content:"";display:block;width:36px;height:4px;background:var(--pomodoro);margin-bottom:18px}
+  .servizio p{margin:0;max-width:40ch}
+
+  .metodo{background:var(--sabbia)}
+  .passi{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:36px;counter-reset:passo}
+  .passi li{counter-increment:passo}
+  .passi li::before{content:counter(passo);display:block;font-family:var(--display);font-weight:800;font-size:3rem;line-height:1;color:var(--pomodoro);margin-bottom:12px}
+  .passi strong{display:block;font-size:1.1rem;margin-bottom:4px}
+  .passi span{color:var(--testo-medio)}
+
+  .pacchetti{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:24px;align-items:stretch}
+  .pacchetto{background:#fff;padding:32px 30px;border-radius:3px;display:flex;flex-direction:column;gap:12px}
+  .pacchetto h3{margin:0;font-family:var(--display);font-weight:800;font-size:1.5rem}
+  .pacchetto p{margin:0}
+  .pacchetto ul{margin:0;padding-left:1.1em;color:#2E3134}
+  .pacchetto .formula{font-weight:600}
+  .pacchetto.pieno{background:var(--grafite);color:var(--carta)}
+  .pacchetto.pieno ul{color:var(--testo-chiaro)}
+  .nota{margin:28px 0 0;color:var(--testo-medio)}
+
+  .contatti{background:var(--grafite);color:var(--carta)}
+  .contatti .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:40px}
+  .contatti p{margin:0;max-width:44ch;color:var(--testo-chiaro)}
+  .recapiti{display:flex;flex-direction:column;gap:12px;font-size:1.15rem}
+  .recapiti a{text-decoration:none;border-bottom:2px solid var(--pomodoro)}
+  .recapiti a:hover{color:#fff}
+
+  footer{background:var(--grafite);color:var(--argento);font-size:.875rem;padding:24px 0 32px;border-top:1px solid #2C2F32}
+
+  @media (max-width:640px){
+    .apertura{padding:32px 0 64px}
+    section{padding:64px 0}
+  }
+</style>
+</head>
+<body>
+<a class="salta" href="#contenuto">Vai al contenuto</a>
+
+<header>
+  <div class="wrap barra">
+    <a class="logo mirino" href="#contenuto" aria-label="Malfer Studio, inizio pagina"><i></i><i></i><i></i><i></i><b>MALFER</b><small>STUDIO</small></a>
+    <nav aria-label="Menu principale">
+      <ul>
+        <li><a href="#servizi">Servizi</a></li>
+        <li><a href="#metodo">Come lavoro</a></li>
+        <li><a href="#pacchetti">Pacchetti</a></li>
+        <li><a href="#contatti">Contatti</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="contenuto">
+  <div class="apertura">
+    <div class="wrap">
+      <div class="inquadratura mirino">
+        <i></i><i></i><i></i><i></i>
+        <h1>Foto, siti e social per ristoranti e hotel.</h1>
+        <p>Fotografo il tuo locale, costruisco il sito e curo i tuoi profili ogni mese. Un solo referente, dal Lago di Garda alla Val di Non, che conosce la ristorazione dall’interno.</p>
+        <div class="azioni">
+          <a class="bottone" href="mailto:webmalfer@gmail.com?subject=Richiesta%20informazioni%20Malfer%20Studio">Scrivimi una email</a>
+          <a class="bottone vuoto" href="#pacchetti">Vedi i pacchetti</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="servizi" aria-labelledby="t-servizi">
+    <div class="wrap">
+      <h2 id="t-servizi">Cosa faccio</h2>
+      <p class="intro">Tre servizi che funzionano meglio insieme: le stesse foto finiscono sul sito, su Google e sui social, con un’immagine coerente ovunque.</p>
+      <div class="servizi">
+        <div class="servizio">
+          <h3>Fotografia</h3>
+          <p>Piatti, sala, camere, esterni e staff. Uno shooting per partire e uno a ogni cambio di stagione, per avere sempre immagini fresche da usare.</p>
+        </div>
+        <div class="servizio">
+          <h3>Siti web</h3>
+          <p>Veloci e chiari sul telefono, con menu, orari, mappa e prenotazione. In italiano, tedesco e inglese per gli ospiti che arrivano da fuori. E la scheda Google sistemata.</p>
+        </div>
+        <div class="servizio">
+          <h3>Social</h3>
+          <p>Instagram e Facebook seguiti ogni mese: calendario, post, reel, storie e risposte ai commenti. Tu pensi alla cucina e agli ospiti.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="metodo" class="metodo" aria-labelledby="t-metodo">
+    <div class="wrap">
+      <h2 id="t-metodo">Come lavoro</h2>
+      <p class="intro">Niente moduli online da compilare: si parte da un incontro nel tuo locale.</p>
+      <ol class="passi">
+        <li><strong>Ci vediamo da te</strong><span>Mi racconti il locale, i clienti che vuoi attirare e cosa non funziona oggi.</span></li>
+        <li><strong>Servizio fotografico</strong><span>Scatto piatti, ambienti e persone nella luce giusta, in una mattina o un pomeriggio.</span></li>
+        <li><strong>Sito e profili online</strong><span>Pubblico il sito, aggiorno Google e preparo i profili social con le nuove foto.</span></li>
+        <li><strong>Ogni mese</strong><span>Post, storie e aggiornamenti secondo un calendario che approvi tu.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="pacchetti" aria-labelledby="t-pacchetti">
+    <div class="wrap">
+      <h2 id="t-pacchetti">Pacchetti</h2>
+      <p class="intro">Si può partire da uno solo e aggiungere il resto quando serve.</p>
+      <div class="pacchetti">
+        <div class="pacchetto">
+          <h3>Vetrina</h3>
+          <p class="formula">Una tantum</p>
+          <ul>
+            <li>Servizio fotografico iniziale</li>
+            <li>Sito in tre lingue con menu e prenotazioni</li>
+            <li>Scheda Google aggiornata</li>
+          </ul>
+        </div>
+        <div class="pacchetto pieno">
+          <h3>Completo</h3>
+          <p class="formula">Avvio più canone mensile</p>
+          <ul>
+            <li>Tutto il pacchetto Vetrina</li>
+            <li>Gestione social ogni mese</li>
+            <li>Uno shooting a ogni stagione</li>
+          </ul>
+        </div>
+        <div class="pacchetto">
+          <h3>Social</h3>
+          <p class="formula">Canone mensile</p>
+          <ul>
+            <li>Instagram e Facebook</li>
+            <li>Calendario, post, reel e storie</li>
+            <li>Report mensile dei risultati</li>
+          </ul>
+        </div>
+      </div>
+      <p class="nota">Il preventivo lo preparo dopo averti conosciuto: ogni locale ha esigenze diverse.</p>
+    </div>
+  </section>
+
+  <section id="contatti" class="contatti" aria-labelledby="t-contatti">
+    <div class="wrap">
+      <div>
+        <h2 id="t-contatti">Parliamone davanti a un caffè.</h2>
+        <p>Scrivimi due righe sul tuo locale: ti rispondo e passo io a trovarti, dal Garda alla Val di Non.</p>
+      </div>
+      <div class="recapiti">
+        <a href="mailto:webmalfer@gmail.com?subject=Richiesta%20informazioni%20Malfer%20Studio">webmalfer@gmail.com</a>
+        <a href="https://www.instagram.com/malferstudio/" rel="noopener">Instagram @malferstudio</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="anno">2026</span> Malfer Studio, Lago di Garda e Trentino</div>
+</footer>
+<script>
+  try{document.getElementById('anno').textContent=new Date().getFullYear();}catch(e){}
+</script>
+</body>
+</html>
