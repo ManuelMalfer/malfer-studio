@@ -168,7 +168,7 @@
       <a class="btn vuoto" id="apriPdf" href="#" target="_blank" rel="noopener">Apri il PDF</a>
       <span id="prontoErr" style="color:var(--no)"></span>
     </div>
-    <p class="avviso solo-schermo">Il PDF si crea sul telefono. Poi con «Condividi» lo mandi su WhatsApp o lo salvi in File; se non parte, «Apri il PDF» e usa il tasto Condividi in alto. · Versione 4</p>
+    <p class="avviso solo-schermo">Il PDF si crea sul telefono. Poi con «Condividi» lo mandi su WhatsApp o lo salvi in File; se non parte, «Apri il PDF» e usa il tasto Condividi in alto. · Versione <span id="ver"></span></p>
   </section>
 </main>
 
@@ -354,10 +354,8 @@ $("#modulo").addEventListener("change", e => {
 const HEX = { "var(--ok)": "#1F8F4E", "var(--meh)": "#D08A12", "var(--no)": "#C2412D" };
 function colore(v) { return v >= 70 ? "var(--ok)" : v >= 45 ? "var(--meh)" : "var(--no)"; }
 
-function disegnaReport() {
-  const c = cur, d = c.dati, p = punteggio(c);
-  $("#pronto").hidden = true; pdfFile = null;
-  const da = [], bene = [];
+function analisi(c) {
+  const p = punteggio(c), da = [], bene = [];
   SEZIONI.forEach(s => s.voci.forEach(v => {
     const k = s.id + "." + v.id, st = stato(c, s, v);
     const peso = s.peso * v.peso;
@@ -365,12 +363,18 @@ function disegnaReport() {
     if (st === "ok") bene.push(testo(v.t, c));
   }));
   da.sort((a, b) => b.ord - a.ord);
-  const subito = da.slice(0, 5), poi = da.slice(5);
-  const voce = x => `<li><b>${esc(testo(x.v.t, c))} · ${x.st === "no" ? "da sistemare" : "da migliorare"}</b><span>${esc(x.v.consiglio)}${c.note[x.k] ? `<br><i>Nota: ${esc(c.note[x.k])}</i>` : ""}</span></li>`;
   const giudizio = p.tot === null ? "Check-up non ancora compilato." :
     p.tot >= 75 ? "Buona presenza online: si tratta di mantenerla e farla crescere." :
     p.tot >= 50 ? "Il locale si trova, ma perde clienti che oggi scelgono i concorrenti." :
     "Online il locale si vede poco: ci sono margini di miglioramento importanti.";
+  return { p, subito: da.slice(0, 5), poi: da.slice(5), bene, giudizio };
+}
+
+function disegnaReport() {
+  const c = cur, d = c.dati, p = punteggio(c);
+  $("#pronto").hidden = true; pdfFile = null;
+  const { subito, poi, bene, giudizio } = analisi(c);
+  const voce = x => `<li><b>${esc(testo(x.v.t, c))} · ${x.st === "no" ? "da sistemare" : "da migliorare"}</b><span>${esc(x.v.consiglio)}${c.note[x.k] ? `<br><i>Nota: ${esc(c.note[x.k])}</i>` : ""}</span></li>`;
 
   $("#report").innerHTML = `
     <div class="testa">
@@ -458,55 +462,95 @@ document.addEventListener("focusout", () => setTimeout(() => {
 /* ---- PDF creato nella pagina (window.print non funziona nell'app aggiunta alla Home dell'iPhone) ---- */
 function carica(src) {
   return new Promise((ok, ko) => {
-    if (document.querySelector(`script[src="${src}"]`)) return ok();
+    if (window.jspdf) return ok();
     const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = () => ko(new Error("rete")); document.head.appendChild(s);
+    setTimeout(() => ko(new Error("rete")), 20000);
   });
+}
+
+// PDF scritto con il testo vero (niente "fotografia" della pagina: leggero e affidabile anche su iPhone)
+function pdfTesto(c) {
+  const d = c.dati, { p, subito, poi, bene, giudizio } = analisi(c);
+  const pdf = new window.jspdf.jsPDF({ unit: "mm", format: "a4" });
+  const RGB = h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)];
+  const NERO = "#16181A", GRIGIO = "#5A5D60", LINEA = "#D9D4CA", CHIARO = "#ECE8E0";
+  const X = 18, W = 174, FONDO = 280;
+  let y = 20;
+  const col = (h, t = "text") => t === "text" ? pdf.setTextColor(...RGB(h)) : t === "fill" ? pdf.setFillColor(...RGB(h)) : pdf.setDrawColor(...RGB(h));
+  const font = (size, stile = "normal", colore = NERO) => { pdf.setFont("helvetica", stile); pdf.setFontSize(size); col(colore); };
+  const spazio = h => { if (y + h > FONDO) { pdf.addPage(); y = 20; } };
+  const righe = (t, size, stile, colore, x = X, w = W, inter = 1.35) => {
+    font(size, stile, colore);
+    const l = pdf.splitTextToSize(String(t), w), h = size * 0.3528 * inter;
+    l.forEach(r => { spazio(h); pdf.text(r, x, y + h * .75); y += h; });
+  };
+  const titolo = t => { spazio(16); y += 6; righe(t, 12.5, "bold"); y += 2; };
+
+  // testata
+  font(19, "bold"); pdf.text("Check-up della visibilità online", X, y + 6);
+  font(11, "bold"); pdf.text("MALFER", X + W, y + 3, { align: "right" });
+  font(5.5, "normal", GRIGIO); pdf.text("S T U D I O", X + W, y + 6.5, { align: "right" });
+  y += 12;
+  righe((d.nome || "Locale") + (d.paese ? " · " + d.paese : ""), 11, "bold", GRIGIO);
+  righe(dataIt(d.data) + (d.ref ? " · per " + d.ref : ""), 10, "normal", GRIGIO);
+  y += 3; col(NERO, "draw"); pdf.setLineWidth(.8); pdf.line(X, y, X + W, y); y += 8;
+
+  // punteggio
+  const cp = HEX[colore(p.tot || 0)];
+  col(cp, "fill"); pdf.roundedRect(X, y, 30, 22, 3, 3, "F");
+  font(20, "bold", "#FFFFFF"); pdf.text(p.tot === null ? "–" : String(p.tot), X + 15, y + 12.5, { align: "center" });
+  font(7.5, "normal", "#FFFFFF"); pdf.text("su 100", X + 15, y + 18, { align: "center" });
+  const y0 = y; y += 2;
+  righe("Punteggio su 100", 11, "bold", NERO, X + 36, W - 36);
+  righe(giudizio, 10.5, "normal", NERO, X + 36, W - 36);
+  if (d.ricerca) righe("Ricerca provata: «" + d.ricerca + "»", 9, "normal", GRIGIO, X + 36, W - 36);
+  y = Math.max(y, y0 + 22) + 4;
+
+  // per area
+  titolo("Per area");
+  p.sez.forEach(x => {
+    spazio(8);
+    const v = x.val === null ? null : Math.round(x.val * 100);
+    font(10, "normal"); pdf.text(x.s.t, X, y + 3.5);
+    col(CHIARO, "fill"); pdf.roundedRect(X + 50, y + 1, W - 64, 3, 1.5, 1.5, "F");
+    if (v) { col(HEX[colore(v)], "fill"); pdf.roundedRect(X + 50, y + 1, (W - 64) * v / 100, 3, 1.5, 1.5, "F"); }
+    font(10, "bold"); pdf.text(v === null ? "–" : String(v), X + W, y + 3.5, { align: "right" });
+    y += 7.5;
+  });
+
+  if (d.conc) { titolo("Chi compare oggi al vostro posto"); righe(d.conc, 10.5, "normal"); }
+
+  const elenco = (lista, da) => lista.forEach((x, i) => {
+    spazio(16);
+    const n = (da + i) + ". ";
+    font(10.5, "bold"); pdf.text(n, X, y + 3.7);
+    righe(testo(x.v.t, c) + " · " + (x.st === "no" ? "da sistemare" : "da migliorare"), 10.5, "bold", NERO, X + 7, W - 7);
+    righe(x.v.consiglio, 9.5, "normal", GRIGIO, X + 7, W - 7);
+    if (c.note[x.k]) righe("Nota: " + c.note[x.k], 9.5, "italic", GRIGIO, X + 7, W - 7);
+    y += 2.5;
+  });
+  if (subito.length) { titolo("Cosa farei subito"); elenco(subito, 1); }
+  if (poi.length) { titolo("Poi"); elenco(poi, subito.length + 1); }
+  if (bene.length) { titolo("Cosa va già bene"); bene.forEach(b => righe("•  " + b, 10, "normal")); }
+  if (d.oss) { titolo("Osservazioni"); righe(d.oss, 10.5, "normal"); }
+
+  // firma
+  spazio(18); y += 6; col(LINEA, "draw"); pdf.setLineWidth(.3); pdf.line(X, y, X + W, y); y += 5;
+  righe(MIO.nome + " · " + MIO.studio, 10, "bold", GRIGIO);
+  righe("Tel. e WhatsApp " + MIO.tel + " · " + MIO.email + " · " + MIO.sito, 9.5, "normal", GRIGIO);
+
+  // numeri di pagina
+  const n = pdf.getNumberOfPages();
+  for (let i = 1; i <= n; i++) { pdf.setPage(i); font(8, "normal", "#8C8F91"); pdf.text(`${i} / ${n}`, X + W, 290, { align: "right" }); }
+  return pdf;
 }
 let pdfFile = null;
 async function creaPdf() {
   const b = $("#stampa"); b.disabled = true; b.textContent = "Creo il PDF…";
   $("#pronto").hidden = true;
   try {
-    await carica("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js");
     await carica("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
-    // copia del report a larghezza fissa, fuori dallo schermo
-    const box = document.createElement("div");
-    box.style.cssText = "position:fixed;left:-10000px;top:0;width:760px;background:#fff";
-    const rep = $("#report").cloneNode(true);
-    rep.removeAttribute("id"); rep.style.border = "0"; rep.style.padding = "40px";
-    box.appendChild(rep); document.body.appendChild(box);
-    if (document.fonts && document.fonts.ready) await document.fonts.ready;
-    // punti dove si può tagliare la pagina (fine di ogni blocco)
-    const top0 = rep.getBoundingClientRect().top;
-    const tagli = [...rep.querySelectorAll(".testa, .totale, .barre, .barra-s, li, p, .firma")]
-      .map(e => e.getBoundingClientRect().bottom - top0).sort((a, b) => a - b);
-    const altezza = rep.offsetHeight;
-    const SCALA = 2;
-    const canvas = await html2canvas(rep, { scale: SCALA, backgroundColor: "#ffffff", useCORS: true, logging: false });
-    box.remove();
-
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ unit: "mm", format: "a4" });
-    const M = 12, W = 210 - 2 * M, H = 297 - 2 * M;
-    const pxPerMm = 760 / W;                 // px CSS per mm
-    const paginaPx = H * pxPerMm;
-    let y = 0, prima = true;
-    while (y < altezza - 2) {
-      let fine = Math.min(y + paginaPx, altezza);
-      if (fine < altezza) {
-        const ok = tagli.filter(t => t > y + 40 && t <= fine);
-        if (ok.length) fine = ok[ok.length - 1] + 6;
-      }
-      const h = Math.min(fine, altezza) - y;
-      const pezzo = document.createElement("canvas");
-      pezzo.width = canvas.width; pezzo.height = Math.round(h * SCALA);
-      const g = pezzo.getContext("2d");
-      g.fillStyle = "#fff"; g.fillRect(0, 0, pezzo.width, pezzo.height);
-      g.drawImage(canvas, 0, Math.round(y * SCALA), canvas.width, pezzo.height, 0, 0, canvas.width, pezzo.height);
-      if (!prima) pdf.addPage();
-      pdf.addImage(pezzo.toDataURL("image/jpeg", .85), "JPEG", M, M, W, h / pxPerMm);
-      prima = false; y = fine;
-    }
+    const pdf = pdfTesto(cur);
     const nome = ("Check-up " + (cur.dati.nome || "locale") + " " + dataIt(cur.dati.data).replace(/\//g, "-"))
       .replace(/[\\/:*?"<>|]+/g, "").trim() + ".pdf";
     pdfFile = new File([pdf.output("blob")], nome, { type: "application/pdf" });
@@ -542,6 +586,26 @@ $("#condividi").onclick = async () => {
 $("#manda").onclick = () => window.open("https://wa.me/?text=" + encodeURIComponent(riassunto()), "_blank");
 
 mostra("elenco");
+
+/* Aggiornamento: l'icona sulla Home dell'iPhone tiene a lungo la pagina vecchia.
+   All'apertura controllo se online c'è una versione più nuova e, se sì, ricarico (una volta). */
+const VERSIONE = "5";
+$("#ver").textContent = VERSIONE;
+function controllaVersione() {
+  fetch(location.pathname + "?nv=" + Date.now(), { cache: "no-store" })
+    .then(r => r.ok ? r.text() : "")
+    .then(t => {
+      const m = t.match(/const VERSIONE = "(\d+)"/);
+      if (m && m[1] !== VERSIONE) {
+        let gia = null; try { gia = sessionStorage.getItem("ricaricata"); } catch (e) {}
+        if (gia === m[1]) return;
+        try { sessionStorage.setItem("ricaricata", m[1]); } catch (e) {}
+        location.replace(location.pathname + "?v=" + m[1]);
+      }
+    }).catch(() => {});
+}
+controllaVersione();
+document.addEventListener("visibilitychange", () => { if (!document.hidden) controllaVersione(); });
 </script>
 </body>
 </html>
