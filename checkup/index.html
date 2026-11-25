@@ -98,7 +98,8 @@
   .cerchio span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:1.7rem}
   .pronto{margin-top:14px;background:#fff;border:2px solid var(--ok);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
   .pronto span{font-size:.86rem;color:var(--testo-medio)}
-  .pronto .btn{background:var(--ok);margin-top:6px}
+  .pronto .btn{margin-top:6px}
+  .pronto .btn:not(.vuoto){background:var(--ok)}
   .totale p{margin:0;font-size:.95rem}
   .barre{display:grid;gap:10px}
   .barra-s{display:grid;grid-template-columns:130px 1fr 44px;gap:10px;align-items:center;font-size:.9rem}
@@ -164,8 +165,10 @@
       <b>PDF pronto</b>
       <span id="prontoNome"></span>
       <button class="btn" id="condividi" type="button">Condividi o salva il PDF</button>
+      <a class="btn vuoto" id="apriPdf" href="#" target="_blank" rel="noopener">Apri il PDF</a>
+      <span id="prontoErr" style="color:var(--no)"></span>
     </div>
-    <p class="avviso solo-schermo">Il PDF si crea sul telefono. Poi con «Condividi» lo mandi su WhatsApp o lo salvi in File.</p>
+    <p class="avviso solo-schermo">Il PDF si crea sul telefono. Poi con «Condividi» lo mandi su WhatsApp o lo salvi in File; se non parte, «Apri il PDF» e usa il tasto Condividi in alto. · Versione 4</p>
   </section>
 </main>
 
@@ -508,10 +511,14 @@ async function creaPdf() {
       .replace(/[\\/:*?"<>|]+/g, "").trim() + ".pdf";
     pdfFile = new File([pdf.output("blob")], nome, { type: "application/pdf" });
     $("#prontoNome").textContent = nome + " · " + Math.max(1, Math.round(pdfFile.size / 1024)) + " KB";
+    $("#prontoErr").textContent = "";
+    const ap = $("#apriPdf");
+    if (ap.dataset.url) URL.revokeObjectURL(ap.dataset.url);
+    ap.dataset.url = ap.href = URL.createObjectURL(pdfFile);
     $("#pronto").hidden = false;
     $("#pronto").scrollIntoView({ behavior: "smooth", block: "center" });
   } catch (e) {
-    alert(e.message === "rete" ? "Serve la connessione a internet per creare il PDF. Riprova quando hai campo." : "Non sono riuscito a creare il PDF: " + e.message);
+    alert(e && e.message === "rete" ? "Serve la connessione a internet per creare il PDF. Riprova quando hai campo." : "Non sono riuscito a creare il PDF: " + (e && (e.message || e.name) || e));
   } finally {
     b.disabled = false; b.textContent = "Crea il PDF";
   }
@@ -521,7 +528,10 @@ $("#stampa").onclick = creaPdf;
 $("#condividi").onclick = async () => {
   if (!pdfFile) return;
   if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
-    try { await navigator.share({ files: [pdfFile], title: pdfFile.name }); } catch (e) { /* annullato */ }
+    try { await navigator.share({ files: [pdfFile] }); }
+    catch (e) {
+      if (e.name !== "AbortError") $("#prontoErr").textContent = "La condivisione non è partita (" + e.name + "). Usa «Apri il PDF» qui sotto.";
+    }
     return;
   }
   const url = URL.createObjectURL(pdfFile);
