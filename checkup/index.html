@@ -93,8 +93,12 @@
   .rep .meta{color:var(--testo-medio);font-size:.88rem;margin-top:4px}
   .rep h4{font-family:var(--display);font-weight:800;font-size:1.05rem;margin:26px 0 10px}
   .totale{display:flex;align-items:center;gap:18px;margin-top:20px}
-  .cerchio{--p:0;--c:var(--no);width:104px;height:104px;border-radius:50%;flex:none;background:conic-gradient(var(--c) calc(var(--p)*1%),#ECE8E0 0);display:grid;place-items:center}
-  .cerchio span{width:80px;height:80px;border-radius:50%;background:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.7rem}
+  .cerchio{position:relative;width:104px;height:104px;flex:none}
+  .cerchio svg{width:104px;height:104px;display:block}
+  .cerchio span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:1.7rem}
+  .pronto{margin-top:14px;background:#fff;border:2px solid var(--ok);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+  .pronto span{font-size:.86rem;color:var(--testo-medio)}
+  .pronto .btn{background:var(--ok);margin-top:6px}
   .totale p{margin:0;font-size:.95rem}
   .barre{display:grid;gap:10px}
   .barra-s{display:grid;grid-template-columns:130px 1fr 44px;gap:10px;align-items:center;font-size:.9rem}
@@ -152,11 +156,16 @@
   <section id="v-report" hidden>
     <div class="rep" id="report"></div>
     <div class="azioni-rep">
-      <button class="btn scuro" id="stampa" type="button">Salva in PDF / Stampa</button>
+      <button class="btn scuro" id="stampa" type="button">Crea il PDF</button>
       <button class="btn wa" id="manda" type="button">Manda il riassunto su WhatsApp</button>
       <button class="btn vuoto" data-vista="modulo" type="button">Torna al modulo</button>
     </div>
-    <p class="avviso solo-schermo">Su iPhone: "Salva in PDF" apre la stampa; tocca Condividi (in alto) e scegli "Salva su File" o WhatsApp.</p>
+    <div class="pronto" id="pronto" hidden>
+      <b>PDF pronto</b>
+      <span id="prontoNome"></span>
+      <button class="btn" id="condividi" type="button">Condividi o salva il PDF</button>
+    </div>
+    <p class="avviso solo-schermo">Il PDF si crea sul telefono. Poi con «Condividi» lo mandi su WhatsApp o lo salvi in File.</p>
   </section>
 </main>
 
@@ -339,10 +348,12 @@ $("#modulo").addEventListener("change", e => {
   }
 });
 
+const HEX = { "var(--ok)": "#1F8F4E", "var(--meh)": "#D08A12", "var(--no)": "#C2412D" };
 function colore(v) { return v >= 70 ? "var(--ok)" : v >= 45 ? "var(--meh)" : "var(--no)"; }
 
 function disegnaReport() {
   const c = cur, d = c.dati, p = punteggio(c);
+  $("#pronto").hidden = true; pdfFile = null;
   const da = [], bene = [];
   SEZIONI.forEach(s => s.voci.forEach(v => {
     const k = s.id + "." + v.id, st = stato(c, s, v);
@@ -365,7 +376,7 @@ function disegnaReport() {
       <div class="logo">MALFER<small>STUDIO</small></div>
     </div>
     <div class="totale">
-      <div class="cerchio" style="--p:${p.tot || 0};--c:${colore(p.tot || 0)}"><span>${p.tot ?? "–"}</span></div>
+      <div class="cerchio"><svg viewBox="0 0 104 104" aria-hidden="true"><circle cx="52" cy="52" r="46" fill="none" stroke="#ECE8E0" stroke-width="12"/><circle cx="52" cy="52" r="46" fill="none" stroke="${HEX[colore(p.tot || 0)]}" stroke-width="12" stroke-dasharray="${(2 * Math.PI * 46 * (p.tot || 0) / 100).toFixed(1)} 999" transform="rotate(-90 52 52)"/></svg><span>${p.tot ?? "–"}</span></div>
       <p><b>Punteggio su 100.</b><br>${giudizio}${d.ricerca ? `<br><span style="color:var(--testo-medio);font-size:.88rem">Ricerca provata: «${esc(d.ricerca)}»</span>` : ""}</p>
     </div>
     <h4>Per area</h4>
@@ -441,11 +452,82 @@ document.addEventListener("focusout", () => setTimeout(() => {
   if (!document.activeElement || !document.activeElement.matches("input, textarea, select")) document.body.classList.remove("scrivo");
 }, 50));
 
-$("#stampa").onclick = () => {
-  const t = document.title;
-  document.title = "Check-up " + (cur.dati.nome || "") + " " + dataIt(cur.dati.data).replace(/\//g, "-");
-  window.print();
-  setTimeout(() => document.title = t, 1000);
+/* ---- PDF creato nella pagina (window.print non funziona nell'app aggiunta alla Home dell'iPhone) ---- */
+function carica(src) {
+  return new Promise((ok, ko) => {
+    if (document.querySelector(`script[src="${src}"]`)) return ok();
+    const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = () => ko(new Error("rete")); document.head.appendChild(s);
+  });
+}
+let pdfFile = null;
+async function creaPdf() {
+  const b = $("#stampa"); b.disabled = true; b.textContent = "Creo il PDF…";
+  $("#pronto").hidden = true;
+  try {
+    await carica("https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js");
+    await carica("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js");
+    // copia del report a larghezza fissa, fuori dallo schermo
+    const box = document.createElement("div");
+    box.style.cssText = "position:fixed;left:-10000px;top:0;width:760px;background:#fff";
+    const rep = $("#report").cloneNode(true);
+    rep.removeAttribute("id"); rep.style.border = "0"; rep.style.padding = "40px";
+    box.appendChild(rep); document.body.appendChild(box);
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    // punti dove si può tagliare la pagina (fine di ogni blocco)
+    const top0 = rep.getBoundingClientRect().top;
+    const tagli = [...rep.querySelectorAll(".testa, .totale, .barre, .barra-s, li, p, .firma")]
+      .map(e => e.getBoundingClientRect().bottom - top0).sort((a, b) => a - b);
+    const altezza = rep.offsetHeight;
+    const SCALA = 2;
+    const canvas = await html2canvas(rep, { scale: SCALA, backgroundColor: "#ffffff", useCORS: true, logging: false });
+    box.remove();
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF({ unit: "mm", format: "a4" });
+    const M = 12, W = 210 - 2 * M, H = 297 - 2 * M;
+    const pxPerMm = 760 / W;                 // px CSS per mm
+    const paginaPx = H * pxPerMm;
+    let y = 0, prima = true;
+    while (y < altezza - 2) {
+      let fine = Math.min(y + paginaPx, altezza);
+      if (fine < altezza) {
+        const ok = tagli.filter(t => t > y + 40 && t <= fine);
+        if (ok.length) fine = ok[ok.length - 1] + 6;
+      }
+      const h = Math.min(fine, altezza) - y;
+      const pezzo = document.createElement("canvas");
+      pezzo.width = canvas.width; pezzo.height = Math.round(h * SCALA);
+      const g = pezzo.getContext("2d");
+      g.fillStyle = "#fff"; g.fillRect(0, 0, pezzo.width, pezzo.height);
+      g.drawImage(canvas, 0, Math.round(y * SCALA), canvas.width, pezzo.height, 0, 0, canvas.width, pezzo.height);
+      if (!prima) pdf.addPage();
+      pdf.addImage(pezzo.toDataURL("image/jpeg", .85), "JPEG", M, M, W, h / pxPerMm);
+      prima = false; y = fine;
+    }
+    const nome = ("Check-up " + (cur.dati.nome || "locale") + " " + dataIt(cur.dati.data).replace(/\//g, "-"))
+      .replace(/[\\/:*?"<>|]+/g, "").trim() + ".pdf";
+    pdfFile = new File([pdf.output("blob")], nome, { type: "application/pdf" });
+    $("#prontoNome").textContent = nome + " · " + Math.max(1, Math.round(pdfFile.size / 1024)) + " KB";
+    $("#pronto").hidden = false;
+    $("#pronto").scrollIntoView({ behavior: "smooth", block: "center" });
+  } catch (e) {
+    alert(e.message === "rete" ? "Serve la connessione a internet per creare il PDF. Riprova quando hai campo." : "Non sono riuscito a creare il PDF: " + e.message);
+  } finally {
+    b.disabled = false; b.textContent = "Crea il PDF";
+  }
+}
+$("#stampa").onclick = creaPdf;
+// secondo tocco: l'iPhone vuole un tocco "fresco" per aprire il menu Condividi
+$("#condividi").onclick = async () => {
+  if (!pdfFile) return;
+  if (navigator.canShare && navigator.canShare({ files: [pdfFile] })) {
+    try { await navigator.share({ files: [pdfFile], title: pdfFile.name }); } catch (e) { /* annullato */ }
+    return;
+  }
+  const url = URL.createObjectURL(pdfFile);
+  const a = document.createElement("a"); a.href = url; a.download = pdfFile.name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
 };
 $("#manda").onclick = () => window.open("https://wa.me/?text=" + encodeURIComponent(riassunto()), "_blank");
 
