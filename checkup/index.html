@@ -32,7 +32,10 @@
   .tab{background:transparent;border:1px solid #4A4D50;color:var(--chiaro);border-radius:99px;padding:6px 12px;font-size:.86rem;cursor:pointer}
   .tab[aria-pressed="true"]{background:var(--carta);color:var(--grafite);border-color:var(--carta)}
 
-  main{padding:20px 0 calc(110px + env(safe-area-inset-bottom,0px))}
+  main{padding:20px 0 calc(160px + env(safe-area-inset-bottom,0px))}
+  input,textarea,select{scroll-margin-bottom:120px}
+  /* mentre si scrive (tastiera aperta) la barra del punteggio si nasconde, così non copre il campo */
+  body.scrivo .fondo{display:none}
   h2{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:28px 0 4px}
   h2:first-child{margin-top:0}
   .sotto{margin:0 0 14px;color:var(--testo-medio);font-size:.93rem}
@@ -432,6 +435,11 @@ function mostra(v) {
   titolo(); scrollTo(0, 0);
 }
 document.addEventListener("click", e => { const b = e.target.closest("[data-vista]"); if (b) mostra(b.dataset.vista); });
+
+document.addEventListener("focusin", e => { if (e.target.matches("input, textarea, select")) document.body.classList.add("scrivo"); });
+document.addEventListener("focusout", () => setTimeout(() => {
+  if (!document.activeElement || !document.activeElement.matches("input, textarea, select")) document.body.classList.remove("scrivo");
+}, 50));
 
 $("#stampa").onclick = () => {
   const t = document.title;
