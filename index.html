@@ -3,37 +3,58 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Malfer Studio — Foto, siti e social per ristoranti e hotel</title>
-<meta name="description" content="Fotografia, siti web e gestione social per ristoranti e hotel sul Lago di Garda e in Trentino. Un solo referente, dal servizio fotografico al sito ai post di ogni mese.">
-<meta property="og:title" content="Malfer Studio">
-<meta property="og:description" content="Foto, siti e social per ristoranti e hotel sul Lago di Garda e in Trentino.">
+<title>Malfer Studio · Foto, siti e social per ristoranti e hotel · Garda e Trentino</title>
+<meta name="description" content="Fotografia, siti web e gestione social per ristoranti, pizzerie, bar e hotel dal Lago di Garda a Trento e alla Val di Non. Primo incontro nel tuo locale, senza impegno.">
+<link rel="canonical" href="https://studio.malfer.it/">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:site_name" content="Malfer Studio">
+<meta property="og:title" content="Malfer Studio · Foto, siti e social per ristoranti e hotel">
+<meta property="og:description" content="Dal Lago di Garda alla Val di Non: foto del tuo locale, sito veloce e profili social curati ogni mese.">
 <meta property="og:url" content="https://studio.malfer.it/">
+<meta property="og:image" content="https://studio.malfer.it/foto/copertina.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#16181A">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2316181A'/%3E%3Cpath d='M14 24V14h10M40 14h10v10M50 40v10H40M24 50H14V40' fill='none' stroke='%23C2412D' stroke-width='5'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Arial Black,Arial' font-weight='900' font-size='24' fill='%23F4F2EE'%3EM%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;800&family=Fraunces:ital,opsz,wght@1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Malfer Studio",
+  "description": "Fotografia, siti web e gestione social per ristoranti, bar e hotel.",
+  "url": "https://studio.malfer.it/",
+  "image": "https://studio.malfer.it/foto/copertina.jpg",
+  "email": "webmalfer@gmail.com",
+  "founder": {"@type": "Person", "name": "Manuel Malfer"},
+  "areaServed": ["Malcesine", "Riva del Garda", "Arco", "Rovereto", "Trento", "Val di Non"],
+  "sameAs": ["https://www.instagram.com/malferstudio/"]
+}
+</script>
 <style>
   :root{
-    --grafite:#16181A; --carta:#F4F2EE; --pomodoro:#C2412D; --argento:#8C8F91;
-    --testo-chiaro:#D8D5CE; --testo-medio:#4A4D50; --sabbia:#EAE6DE;
+    --grafite:#16181A; --grafite-2:#1F2225; --carta:#F4F2EE; --sabbia:#EAE6DE;
+    --pomodoro:#C2412D; --pomodoro-scuro:#A83826; --argento:#8C8F91;
+    --testo-chiaro:#D8D5CE; --testo-medio:#4A4D50; --linea:#D9D4CA;
+    --wa:#1F8F4E;
     --display:"Archivo","Arial Black",Arial,sans-serif;
     --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
-    box-sizing:border-box;
-    padding-top:env(safe-area-inset-top,0px);
-    padding-bottom:env(safe-area-inset-bottom,0px);
+    --corsivo:"Fraunces",Georgia,serif;
   }
-  *,*::before,*::after{box-sizing:inherit}
-  html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
-  body{margin:0;background:var(--carta);color:var(--grafite);font-family:var(--body);font-size:1.0625rem;line-height:1.6}
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-behavior:smooth;scroll-padding-top:76px}
+  body{margin:0;background:var(--carta);color:var(--grafite);font-family:var(--body);font-size:1.0625rem;line-height:1.6;-webkit-text-size-adjust:100%}
+  img{max-width:100%;display:block}
   a{color:inherit}
   :focus-visible{outline:3px solid var(--pomodoro);outline-offset:3px}
-  .salta{position:absolute;left:-999px;top:8px;background:var(--carta);color:var(--grafite);padding:10px 14px;z-index:20}
+  .salta{position:absolute;left:-999px;top:8px;background:var(--carta);color:var(--grafite);padding:10px 14px;z-index:50}
   .salta:focus{left:8px}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 clamp(16px,4vw,32px)}
+  em.c{font-family:var(--corsivo);font-style:italic;font-weight:400;letter-spacing:0}
 
-  /* mirino: i quattro angoli */
+  /* mirino: i quattro angoli del logo */
   .mirino{position:relative}
   .mirino>i{position:absolute;width:var(--a,26px);height:var(--a,26px);border:0 solid var(--pomodoro);pointer-events:none}
   .mirino>i:nth-child(1){top:0;left:0;border-top-width:var(--s,4px);border-left-width:var(--s,4px)}
@@ -41,75 +62,153 @@
   .mirino>i:nth-child(3){bottom:0;left:0;border-bottom-width:var(--s,4px);border-left-width:var(--s,4px)}
   .mirino>i:nth-child(4){bottom:0;right:0;border-bottom-width:var(--s,4px);border-right-width:var(--s,4px)}
 
+  /* bottoni */
+  .bottone{display:inline-flex;align-items:center;gap:10px;background:var(--pomodoro);color:#fff;text-decoration:none;font-weight:600;padding:14px 24px;border-radius:4px;border:1px solid transparent;transition:background .2s,border-color .2s}
+  .bottone:hover{background:var(--pomodoro-scuro)}
+  .bottone.wa{background:var(--wa)}
+  .bottone.wa:hover{background:#18763F}
+  .bottone.vuoto{background:transparent;color:inherit;border-color:currentColor}
+  .bottone.vuoto:hover{background:rgba(255,255,255,.08)}
+  .bottone svg{width:20px;height:20px;flex:none}
+  [data-wa][hidden]{display:none!important}
+
   /* testata */
-  header{background:var(--grafite);color:var(--carta)}
-  .barra{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-top:18px;padding-bottom:18px}
-  .logo{display:inline-flex;flex-direction:column;align-items:center;padding:8px 14px;text-decoration:none;--a:10px;--s:2px}
-  .logo b{font-family:var(--display);font-weight:800;font-size:1.35rem;line-height:1;letter-spacing:.03em}
-  .logo small{font-family:var(--display);font-weight:500;font-size:.5rem;letter-spacing:.6em;padding-left:.6em;margin-top:3px}
-  nav ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 26px}
+  header{position:sticky;top:0;z-index:30;background:rgba(22,24,26,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--carta);padding-top:env(safe-area-inset-top,0px)}
+  .barra{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+  .logo{display:inline-flex;flex-direction:column;align-items:center;padding:6px 12px;text-decoration:none;--a:9px;--s:2px}
+  .logo b{font-family:var(--display);font-weight:800;font-size:1.2rem;line-height:1;letter-spacing:.03em}
+  .logo small{font-family:var(--display);font-weight:500;font-size:.48rem;letter-spacing:.6em;padding-left:.6em;margin-top:3px}
+  nav ul{list-style:none;margin:0;padding:0;display:flex;gap:28px}
   nav a{text-decoration:none;font-size:.95rem;color:var(--testo-chiaro)}
-  nav a:hover{color:var(--carta)}
+  nav a:hover{color:#fff}
+  .barra .bottone{padding:9px 16px;font-size:.92rem}
+  @media (max-width:860px){ nav{display:none} }
 
   /* apertura */
-  .apertura{background:var(--grafite);color:var(--carta);padding:56px 0 96px}
-  .inquadratura{--a:clamp(30px,6vw,64px);--s:clamp(4px,.7vw,7px);padding:clamp(36px,7vw,88px) clamp(24px,6vw,80px)}
-  .inquadratura h1{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,7.4vw,5.6rem);line-height:.98;letter-spacing:-.01em;max-width:13ch}
-  .inquadratura p{margin:28px 0 0;max-width:46ch;font-size:clamp(1.05rem,1.6vw,1.25rem);color:var(--testo-chiaro)}
-  .azioni{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
-  .bottone{display:inline-block;background:var(--pomodoro);color:#fff;text-decoration:none;font-weight:600;padding:15px 26px;border-radius:3px}
-  .bottone:hover{background:#A83826}
-  .bottone.vuoto{background:transparent;color:var(--carta);border:1px solid #5E6164}
-  .bottone.vuoto:hover{border-color:var(--carta);background:transparent}
-
+  .apertura{position:relative;background:var(--grafite);color:var(--carta);overflow:hidden;min-height:min(88vh,820px);display:flex;align-items:flex-end}
+  .apertura .sfondo{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .8s}
+  .apertura.con-foto .sfondo{opacity:1}
+  .apertura.con-foto::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(22,24,26,.45) 0%,rgba(22,24,26,.5) 35%,rgba(22,24,26,.94) 100%)}
+  .apertura.con-foto h1,.apertura.con-foto p.sotto,.apertura.con-foto .zona{text-shadow:0 1px 18px rgba(0,0,0,.45)}
+  .apertura .wrap{position:relative;z-index:2;width:100%;padding-top:72px;padding-bottom:clamp(48px,8vw,96px)}
+  .inquadratura{--a:clamp(28px,5vw,56px);--s:clamp(3px,.6vw,6px);padding:clamp(28px,6vw,72px) clamp(20px,5vw,64px)}
+  .zona{display:inline-block;font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--testo-chiaro);margin-bottom:18px}
+  .apertura h1{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(2.3rem,7vw,5.4rem);line-height:1;letter-spacing:-.015em;max-width:15ch}
+  .apertura h1 em.c{font-size:1.04em}
+  .apertura p.sotto{margin:24px 0 0;max-width:48ch;font-size:clamp(1.05rem,1.6vw,1.22rem);color:var(--testo-chiaro)}
+  .azioni{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+  .apertura .bottone.vuoto{color:var(--carta);border-color:#6A6D70}
   @media (prefers-reduced-motion:no-preference){
-    .inquadratura>i{animation:metti-a-fuoco .9s cubic-bezier(.2,.7,.2,1) both}
-    .inquadratura>i:nth-child(1){--dx:-28px;--dy:-28px}
-    .inquadratura>i:nth-child(2){--dx:28px;--dy:-28px}
-    .inquadratura>i:nth-child(3){--dx:-28px;--dy:28px}
-    .inquadratura>i:nth-child(4){--dx:28px;--dy:28px}
-    @keyframes metti-a-fuoco{from{transform:translate(var(--dx),var(--dy));opacity:0}to{transform:none;opacity:1}}
+    .inquadratura>i{animation:fuoco .9s cubic-bezier(.2,.7,.2,1) both}
+    .inquadratura>i:nth-child(1){--dx:-24px;--dy:-24px}
+    .inquadratura>i:nth-child(2){--dx:24px;--dy:-24px}
+    .inquadratura>i:nth-child(3){--dx:-24px;--dy:24px}
+    .inquadratura>i:nth-child(4){--dx:24px;--dy:24px}
+    @keyframes fuoco{from{transform:translate(var(--dx),var(--dy));opacity:0}to{transform:none;opacity:1}}
   }
 
   /* sezioni */
-  section{padding:88px 0}
-  h2{margin:0 0 12px;font-family:var(--display);font-weight:800;font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.05}
-  .intro{margin:0 0 44px;max-width:56ch;color:var(--testo-medio)}
+  section{padding:clamp(64px,9vw,104px) 0}
+  .occhiello{display:block;font-size:.78rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--pomodoro);margin-bottom:10px}
+  h2{margin:0 0 14px;font-family:var(--display);font-weight:800;font-size:clamp(1.9rem,4.2vw,3rem);line-height:1.04;letter-spacing:-.01em}
+  .intro{margin:0 0 44px;max-width:58ch;color:var(--testo-medio)}
+  .scura{background:var(--grafite);color:var(--carta)}
+  .scura .intro{color:var(--testo-chiaro)}
 
-  .servizi{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:48px 40px}
-  .servizio h3{margin:0 0 10px;font-family:var(--display);font-weight:800;font-size:1.5rem}
-  .servizio h3::before{content:"";display:block;width:36px;height:4px;background:var(--pomodoro);margin-bottom:18px}
-  .servizio p{margin:0;max-width:40ch}
+  /* lavori */
+  .filtri{display:flex;flex-wrap:wrap;gap:8px;margin:-20px 0 28px}
+  .filtri button{font:inherit;font-size:.9rem;padding:7px 14px;border-radius:99px;border:1px solid #45484B;background:transparent;color:var(--testo-chiaro);cursor:pointer}
+  .filtri button[aria-pressed="true"]{background:var(--carta);color:var(--grafite);border-color:var(--carta)}
+  .galleria{columns:3 300px;column-gap:14px}
+  .galleria button{all:unset;display:block;cursor:zoom-in;margin:0 0 14px;break-inside:avoid;position:relative;overflow:hidden;border-radius:3px;background:var(--grafite-2)}
+  .galleria button:focus-visible{outline:3px solid var(--pomodoro);outline-offset:2px}
+  .galleria img{width:100%;height:auto;transition:transform .5s ease}
+  .galleria button:hover img{transform:scale(1.03)}
+  .galleria figcaption{position:absolute;left:0;right:0;bottom:0;padding:24px 12px 10px;font-size:.85rem;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.6));opacity:0;transition:opacity .25s}
+  .galleria button:hover figcaption,.galleria button:focus-visible figcaption{opacity:1}
+  @media (hover:none){ .galleria figcaption{opacity:1} }
+  @media (max-width:600px){ .galleria{columns:2;column-gap:8px} .galleria button{margin-bottom:8px} .galleria figcaption{font-size:.75rem;padding:18px 8px 6px} }
 
-  .metodo{background:var(--sabbia)}
-  .passi{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:36px;counter-reset:passo}
-  .passi li{counter-increment:passo}
-  .passi li::before{content:counter(passo);display:block;font-family:var(--display);font-weight:800;font-size:3rem;line-height:1;color:var(--pomodoro);margin-bottom:12px}
-  .passi strong{display:block;font-size:1.1rem;margin-bottom:4px}
+  /* lightbox */
+  dialog.lb{border:0;padding:0;margin:0;max-width:none;max-height:none;width:100vw;height:100dvh;background:rgba(10,11,12,.96);color:#fff}
+  dialog.lb::backdrop{background:rgba(10,11,12,.96)}
+  .lb figure{margin:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 12px 20px}
+  .lb img{max-width:100%;max-height:calc(100dvh - 120px);object-fit:contain}
+  .lb figcaption{margin-top:12px;font-size:.92rem;color:#cfcac2;text-align:center}
+  .lb button{position:absolute;background:rgba(255,255,255,.08);border:0;color:#fff;width:48px;height:48px;border-radius:50%;font-size:1.6rem;line-height:1;cursor:pointer}
+  .lb button:hover{background:rgba(255,255,255,.18)}
+  .lb .chiudi{top:max(12px,env(safe-area-inset-top));right:12px}
+  .lb .prec{left:12px;top:50%;transform:translateY(-50%)}
+  .lb .succ{right:12px;top:50%;transform:translateY(-50%)}
+  @media (max-width:600px){ .lb .prec,.lb .succ{top:auto;bottom:16px;transform:none} }
+
+  /* servizi */
+  .servizi{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+  .servizio{background:#fff;border:1px solid var(--linea);border-radius:4px;padding:32px 28px}
+  .servizio .num{font-family:var(--display);font-weight:800;color:var(--pomodoro);font-size:.95rem;letter-spacing:.08em}
+  .servizio h3{margin:8px 0 10px;font-family:var(--display);font-weight:800;font-size:1.55rem;line-height:1.1}
+  .servizio p{margin:0 0 18px;color:var(--testo-medio)}
+  .servizio ul{margin:0;padding:0;list-style:none;border-top:1px solid var(--linea)}
+  .servizio li{padding:10px 0 10px 26px;border-bottom:1px solid var(--linea);position:relative;font-size:.97rem}
+  .servizio li::before{content:"";position:absolute;left:2px;top:17px;width:10px;height:10px;border:2px solid var(--pomodoro);border-right:0;border-bottom:0}
+
+  /* lancio */
+  .lancio{background:var(--pomodoro);color:#fff;padding:clamp(48px,7vw,80px) 0}
+  .lancio .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center}
+  .lancio h2{color:#fff}
+  .lancio p{margin:0;max-width:52ch;color:#FBE7E2}
+  .lancio ul{margin:0;padding:0;list-style:none;display:grid;gap:12px}
+  .lancio li{background:rgba(0,0,0,.14);padding:14px 18px;border-radius:4px;font-weight:500}
+  .lancio li b{display:block;font-family:var(--display);font-weight:800;font-size:1.05rem}
+  .lancio li span{font-size:.93rem;color:#FBE7E2;font-weight:400}
+  .lancio .bottone{background:#fff;color:var(--pomodoro);margin-top:26px}
+  .lancio .bottone:hover{background:var(--carta)}
+  @media (max-width:820px){ .lancio .wrap{grid-template-columns:1fr} }
+
+  /* come lavoro */
+  .passi{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;counter-reset:passo}
+  .passi li{counter-increment:passo;border-top:2px solid var(--grafite);padding-top:18px}
+  .passi li::before{content:"0" counter(passo);display:block;font-family:var(--display);font-weight:800;font-size:.95rem;color:var(--pomodoro);margin-bottom:8px;letter-spacing:.08em}
+  .passi strong{display:block;font-family:var(--display);font-weight:800;font-size:1.25rem;margin-bottom:6px}
   .passi span{color:var(--testo-medio)}
 
-  .pacchetti{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:24px;align-items:stretch}
-  .pacchetto{background:#fff;padding:32px 30px;border-radius:3px;display:flex;flex-direction:column;gap:12px}
-  .pacchetto h3{margin:0;font-family:var(--display);font-weight:800;font-size:1.5rem}
-  .pacchetto p{margin:0}
-  .pacchetto ul{margin:0;padding-left:1.1em;color:#2E3134}
-  .pacchetto .formula{font-weight:600}
-  .pacchetto.pieno{background:var(--grafite);color:var(--carta)}
-  .pacchetto.pieno ul{color:var(--testo-chiaro)}
-  .nota{margin:28px 0 0;color:var(--testo-medio)}
+  /* chi sono */
+  .chi{background:var(--sabbia)}
+  .chi .wrap{display:grid;grid-template-columns:minmax(220px,380px) 1fr;gap:clamp(32px,6vw,72px);align-items:center}
+  .ritratto{--a:28px;--s:4px;padding:14px;aspect-ratio:4/5}
+  .ritratto .foto{width:100%;height:100%;background:var(--grafite) center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:var(--carta);font-family:var(--display);font-weight:800;font-size:3.4rem}
+  .chi p{margin:0 0 16px;max-width:56ch}
+  .chi p:last-of-type{margin-bottom:0}
+  .attrezzatura{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;padding:0;list-style:none}
+  .attrezzatura li{font-size:.86rem;padding:6px 12px;border:1px solid #BDB6AA;border-radius:99px;color:var(--testo-medio)}
+  @media (max-width:760px){ .chi .wrap{grid-template-columns:1fr} .ritratto{max-width:300px} }
 
-  .contatti{background:var(--grafite);color:var(--carta)}
-  .contatti .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:40px}
-  .contatti p{margin:0;max-width:44ch;color:var(--testo-chiaro)}
-  .recapiti{display:flex;flex-direction:column;gap:12px;font-size:1.15rem}
-  .recapiti a{text-decoration:none;border-bottom:2px solid var(--pomodoro)}
-  .recapiti a:hover{color:#fff}
+  /* domande */
+  .domande{max-width:820px}
+  .domande details{border-bottom:1px solid var(--linea)}
+  .domande summary{cursor:pointer;list-style:none;padding:20px 40px 20px 0;font-weight:600;font-size:1.08rem;position:relative}
+  .domande summary::-webkit-details-marker{display:none}
+  .domande summary::after{content:"+";position:absolute;right:4px;top:14px;font-size:1.6rem;font-weight:400;color:var(--pomodoro);transition:transform .2s}
+  .domande details[open] summary::after{transform:rotate(45deg)}
+  .domande details p{margin:0 0 20px;color:var(--testo-medio);max-width:64ch}
 
-  footer{background:var(--grafite);color:var(--argento);font-size:.875rem;padding:24px 0 32px;border-top:1px solid #2C2F32}
+  /* contatti */
+  .contatti .wrap{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end}
+  .contatti p{margin:0;max-width:46ch;color:var(--testo-chiaro)}
+  .recapiti{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+  .recapiti a.link{text-decoration:none;border-bottom:2px solid var(--pomodoro);font-size:1.08rem}
+  .recapiti a.link:hover{color:#fff}
+  @media (max-width:760px){ .contatti .wrap{grid-template-columns:1fr} }
 
-  @media (max-width:640px){
-    .apertura{padding:32px 0 64px}
-    section{padding:64px 0}
+  footer{background:var(--grafite);color:var(--argento);font-size:.86rem;padding:22px 0 calc(28px + env(safe-area-inset-bottom,0px));border-top:1px solid #2C2F32}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+
+  /* tasto WhatsApp fisso su telefono */
+  .wa-fisso{display:none}
+  @media (max-width:700px){
+    .wa-fisso{display:flex;position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;width:56px;height:56px;border-radius:50%;background:var(--wa);color:#fff;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(0,0,0,.3)}
+    .wa-fisso svg{width:28px;height:28px}
+    .barra .bottone{display:none}
   }
 </style>
 </head>
@@ -118,123 +217,294 @@
 
 <header>
   <div class="wrap barra">
-    <a class="logo mirino" href="#contenuto" aria-label="Malfer Studio, inizio pagina"><i></i><i></i><i></i><i></i><b>MALFER</b><small>STUDIO</small></a>
+    <a class="logo mirino" href="#top" aria-label="Malfer Studio, inizio pagina"><i></i><i></i><i></i><i></i><b>MALFER</b><small>STUDIO</small></a>
     <nav aria-label="Menu principale">
       <ul>
+        <li data-se-lavori hidden><a href="#lavori">Lavori</a></li>
         <li><a href="#servizi">Servizi</a></li>
-        <li><a href="#metodo">Come lavoro</a></li>
-        <li><a href="#pacchetti">Pacchetti</a></li>
+        <li><a href="#chi-sono">Chi sono</a></li>
+        <li><a href="#domande">Domande</a></li>
         <li><a href="#contatti">Contatti</a></li>
       </ul>
     </nav>
+    <a class="bottone wa" data-wa hidden href="#">Scrivimi</a>
   </div>
 </header>
 
 <main id="contenuto">
-  <div class="apertura">
+  <div class="apertura" id="top">
+    <div class="sfondo" aria-hidden="true"></div>
     <div class="wrap">
       <div class="inquadratura mirino">
         <i></i><i></i><i></i><i></i>
-        <h1>Foto, siti e social per ristoranti e hotel.</h1>
-        <p>Fotografo il tuo locale, costruisco il sito e curo i tuoi profili ogni mese. Un solo referente, dal Lago di Garda alla Val di Non, che conosce la ristorazione dall’interno.</p>
+        <span class="zona">Dal Lago di Garda alla Val di Non</span>
+        <h1>Il tuo locale, raccontato <em class="c">come merita.</em></h1>
+        <p class="sotto">Foto dei piatti e della sala, un sito che sul telefono si apre subito e profili Instagram e Facebook curati ogni mese. Per ristoranti, pizzerie, bar e hotel della zona.</p>
         <div class="azioni">
-          <a class="bottone" href="mailto:webmalfer@gmail.com?subject=Richiesta%20informazioni%20Malfer%20Studio">Scrivimi una email</a>
-          <a class="bottone vuoto" href="#pacchetti">Vedi i pacchetti</a>
+          <a class="bottone wa" data-wa hidden href="#"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Scrivimi su WhatsApp</a>
+          <a class="bottone" data-email href="mailto:webmalfer@gmail.com?subject=Informazioni%20per%20il%20mio%20locale">Scrivimi una email</a>
+          <a class="bottone vuoto" href="#servizi">Cosa faccio</a>
         </div>
       </div>
     </div>
   </div>
 
+  <section id="lavori" class="scura" aria-labelledby="t-lavori" hidden>
+    <div class="wrap">
+      <span class="occhiello">Lavori</span>
+      <h2 id="t-lavori">Alcuni scatti</h2>
+      <p class="intro">Piatti, sale e persone fotografati nella luce del locale, senza effetti finti. Tocca una foto per vederla grande.</p>
+      <div class="filtri" role="group" aria-label="Filtra le foto" hidden></div>
+      <div class="galleria"></div>
+    </div>
+  </section>
+
   <section id="servizi" aria-labelledby="t-servizi">
     <div class="wrap">
-      <h2 id="t-servizi">Cosa faccio</h2>
-      <p class="intro">Tre servizi che funzionano meglio insieme: le stesse foto finiscono sul sito, su Google e sui social, con un’immagine coerente ovunque.</p>
+      <span class="occhiello">Servizi</span>
+      <h2 id="t-servizi">Tre cose, fatte bene</h2>
+      <p class="intro">Si può partire da una sola. Insieme funzionano meglio: le stesse foto finiscono sul sito, su Google e sui social, e il locale ha la stessa faccia dappertutto.</p>
       <div class="servizi">
-        <div class="servizio">
+        <article class="servizio">
+          <span class="num">01</span>
           <h3>Fotografia</h3>
-          <p>Piatti, sala, camere, esterni e staff. Uno shooting per partire e uno a ogni cambio di stagione, per avere sempre immagini fresche da usare.</p>
-        </div>
-        <div class="servizio">
-          <h3>Siti web</h3>
-          <p>Veloci e chiari sul telefono, con menu, orari, mappa e prenotazione. In italiano, tedesco e inglese per gli ospiti che arrivano da fuori. E la scheda Google sistemata.</p>
-        </div>
-        <div class="servizio">
+          <p>Un servizio nel tuo locale, di mattina o di pomeriggio, quando la luce è giusta e il servizio non è ancora iniziato.</p>
+          <ul>
+            <li>Piatti, sala, esterni, camere e staff</li>
+            <li>Foto pronte per sito, Google e social</li>
+            <li>Formati verticali per storie e reel</li>
+            <li>Consegna in pochi giorni, in una cartella online</li>
+          </ul>
+        </article>
+        <article class="servizio">
+          <span class="num">02</span>
+          <h3>Sito web</h3>
+          <p>Un sito semplice e veloce, pensato prima di tutto per chi ti cerca dal telefono mentre decide dove andare a mangiare.</p>
+          <ul>
+            <li>Menu, orari, mappa e foto</li>
+            <li>Tasti per chiamare e prenotare su WhatsApp</li>
+            <li>Scheda Google sistemata, con foto e orari giusti</li>
+            <li>Inglese e tedesco per gli ospiti da fuori, se servono</li>
+          </ul>
+        </article>
+        <article class="servizio">
+          <span class="num">03</span>
           <h3>Social</h3>
-          <p>Instagram e Facebook seguiti ogni mese: calendario, post, reel, storie e risposte ai commenti. Tu pensi alla cucina e agli ospiti.</p>
-        </div>
+          <p>Instagram e Facebook seguiti ogni mese, con un calendario che approvi tu. Tu pensi alla cucina e agli ospiti.</p>
+          <ul>
+            <li>Calendario dei post del mese</li>
+            <li>Post, storie e reel con le tue foto</li>
+            <li>Promozioni per feste ed eventi</li>
+            <li>Un resoconto semplice a fine mese</li>
+          </ul>
+        </article>
       </div>
     </div>
   </section>
 
-  <section id="metodo" class="metodo" aria-labelledby="t-metodo">
+  <section class="lancio" aria-labelledby="t-lancio">
     <div class="wrap">
-      <h2 id="t-metodo">Come lavoro</h2>
-      <p class="intro">Niente moduli online da compilare: si parte da un incontro nel tuo locale.</p>
+      <div>
+        <span class="occhiello" style="color:#FBE7E2">Lo studio apre adesso</span>
+        <h2 id="t-lancio">Cerco i primi cinque locali.</h2>
+        <p>Malfer Studio è nato da poco. Per i primi cinque locali che mi danno fiducia ci sono condizioni di lancio: in cambio ti chiedo solo di poter mostrare il lavoro qui, sul sito.</p>
+        <a class="bottone" data-contatto href="#contatti">Voglio saperne di più</a>
+      </div>
+      <ul>
+        <li><b>Primo incontro gratuito</b><span>Vengo io nel tuo locale, guardiamo insieme cosa c'è oggi online.</span></li>
+        <li><b>Prezzo di lancio</b><span>Più basso di quello che sarà poi il listino.</span></li>
+        <li><b>Scegli tu le foto</b><span>Prima di pubblicare qualsiasi cosa, la vedi e la approvi.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="metodo" aria-labelledby="t-metodo">
+    <div class="wrap">
+      <span class="occhiello">Come lavoro</span>
+      <h2 id="t-metodo">Si parte da un caffè</h2>
+      <p class="intro">Niente moduli da compilare: ci vediamo nel tuo locale.</p>
       <ol class="passi">
-        <li><strong>Ci vediamo da te</strong><span>Mi racconti il locale, i clienti che vuoi attirare e cosa non funziona oggi.</span></li>
-        <li><strong>Servizio fotografico</strong><span>Scatto piatti, ambienti e persone nella luce giusta, in una mattina o un pomeriggio.</span></li>
-        <li><strong>Sito e profili online</strong><span>Pubblico il sito, aggiorno Google e preparo i profili social con le nuove foto.</span></li>
-        <li><strong>Ogni mese</strong><span>Post, storie e aggiornamenti secondo un calendario che approvi tu.</span></li>
+        <li><strong>Ci conosciamo</strong><span>Mi racconti il locale, i clienti che vuoi attirare e cosa oggi non funziona.</span></li>
+        <li><strong>Preventivo chiaro</strong><span>Ti mando cosa faccio, quando e quanto costa. Nessuna sorpresa dopo.</span></li>
+        <li><strong>Foto e sito</strong><span>Scatto, scegliamo insieme le foto, pubblico il sito e sistemo Google.</span></li>
+        <li><strong>Ogni mese</strong><span>Se vuoi, seguo i social con un calendario che approvi prima tu.</span></li>
       </ol>
     </div>
   </section>
 
-  <section id="pacchetti" aria-labelledby="t-pacchetti">
+  <section id="chi-sono" class="chi" aria-labelledby="t-chi">
     <div class="wrap">
-      <h2 id="t-pacchetti">Pacchetti</h2>
-      <p class="intro">Si può partire da uno solo e aggiungere il resto quando serve.</p>
-      <div class="pacchetti">
-        <div class="pacchetto">
-          <h3>Vetrina</h3>
-          <p class="formula">Una tantum</p>
-          <ul>
-            <li>Servizio fotografico iniziale</li>
-            <li>Sito in tre lingue con menu e prenotazioni</li>
-            <li>Scheda Google aggiornata</li>
-          </ul>
-        </div>
-        <div class="pacchetto pieno">
-          <h3>Completo</h3>
-          <p class="formula">Avvio più canone mensile</p>
-          <ul>
-            <li>Tutto il pacchetto Vetrina</li>
-            <li>Gestione social ogni mese</li>
-            <li>Uno shooting a ogni stagione</li>
-          </ul>
-        </div>
-        <div class="pacchetto">
-          <h3>Social</h3>
-          <p class="formula">Canone mensile</p>
-          <ul>
-            <li>Instagram e Facebook</li>
-            <li>Calendario, post, reel e storie</li>
-            <li>Report mensile dei risultati</li>
-          </ul>
-        </div>
+      <div class="ritratto mirino"><i></i><i></i><i></i><i></i><div class="foto" role="img" aria-label="Manuel Malfer">MM</div></div>
+      <div>
+        <span class="occhiello">Chi sono</span>
+        <h2 id="t-chi">Ciao, sono <em class="c">Manuel.</em></h2>
+        <p>Vivo e lavoro tra il Garda e il Trentino. Da sempre mi appassionano la tecnologia e la fotografia, e ho deciso di metterle al servizio dei locali della mia zona.</p>
+        <p>Non sono una grande agenzia, e questo è il bello: parli sempre con me, ti rispondo io e vengo io da te. Preferisco fare poche cose curate che tante fatte di fretta.</p>
+        <p>Anche questo sito è fatto come quelli che farò per te: semplice, veloce, senza abbonamenti a piattaforme che non ti servono.</p>
+        <ul class="attrezzatura" aria-label="Attrezzatura">
+          <li>Nikon Z5 II full frame</li>
+          <li>24-70 mm f/2.8</li>
+          <li>Tamron 100-300 mm f/4</li>
+        </ul>
       </div>
-      <p class="nota">Il preventivo lo preparo dopo averti conosciuto: ogni locale ha esigenze diverse.</p>
     </div>
   </section>
 
-  <section id="contatti" class="contatti" aria-labelledby="t-contatti">
+  <section id="domande" aria-labelledby="t-domande">
+    <div class="wrap">
+      <span class="occhiello">Domande</span>
+      <h2 id="t-domande">Le cose che mi chiedono</h2>
+      <div class="domande">
+        <details>
+          <summary>Quanto costa?</summary>
+          <p>Dipende da cosa serve: un servizio fotografico, un sito, i social o tutto insieme. Dopo il primo incontro ti mando un preventivo scritto e chiaro. Per i primi cinque locali ci sono condizioni di lancio.</p>
+        </details>
+        <details>
+          <summary>Devo chiudere il locale per le foto?</summary>
+          <p>No. Scatto prima dell'apertura o nella pausa tra pranzo e cena. Serve solo che la cucina prepari i piatti da fotografare.</p>
+        </details>
+        <details>
+          <summary>Ho già un sito: devo buttarlo?</summary>
+          <p>Non per forza. Lo guardiamo insieme: a volte bastano foto nuove, il menu aggiornato e un tasto per prenotare.</p>
+        </details>
+        <details>
+          <summary>Fra quanto è pronto il sito?</summary>
+          <p>Un sito semplice di una pagina, con le foto già pronte, in una o due settimane. Il tempo dipende soprattutto da quando abbiamo foto e menu.</p>
+        </details>
+        <details>
+          <summary>Lavori anche fuori dalla tua zona?</summary>
+          <p>Lavoro soprattutto da Malcesine e l'Alto Garda fino a Trento e alla Val di Non. Per altre zone scrivimi lo stesso e ne parliamo.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contatti" class="contatti scura" aria-labelledby="t-contatti">
     <div class="wrap">
       <div>
+        <span class="occhiello">Contatti</span>
         <h2 id="t-contatti">Parliamone davanti a un caffè.</h2>
-        <p>Scrivimi due righe sul tuo locale: ti rispondo e passo io a trovarti, dal Garda alla Val di Non.</p>
+        <p>Scrivimi due righe sul tuo locale: nome, paese e cosa vorresti migliorare. Ti rispondo io e passo a trovarti.</p>
       </div>
       <div class="recapiti">
-        <a href="mailto:webmalfer@gmail.com?subject=Richiesta%20informazioni%20Malfer%20Studio">webmalfer@gmail.com</a>
-        <a href="https://www.instagram.com/malferstudio/" rel="noopener">Instagram @malferstudio</a>
+        <a class="bottone wa" data-wa hidden href="#"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg>Scrivimi su WhatsApp</a>
+        <a class="link" href="mailto:webmalfer@gmail.com?subject=Informazioni%20per%20il%20mio%20locale">webmalfer@gmail.com</a>
+        <a class="link" href="https://www.instagram.com/malferstudio/" rel="noopener">Instagram @malferstudio</a>
       </div>
     </div>
   </section>
 </main>
 
 <footer>
-  <div class="wrap">© <span id="anno">2026</span> Malfer Studio, Lago di Garda e Trentino</div>
+  <div class="wrap">
+    <span>© <span id="anno">2026</span> Malfer Studio · Manuel Malfer</span>
+    <span>Lago di Garda e Trentino</span>
+  </div>
 </footer>
+
+<a class="wa-fisso" data-wa hidden href="#" aria-label="Scrivimi su WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg></a>
+
+<dialog class="lb" aria-label="Foto ingrandita">
+  <figure><img alt=""><figcaption></figcaption></figure>
+  <button class="chiudi" type="button" aria-label="Chiudi">×</button>
+  <button class="prec" type="button" aria-label="Foto precedente">‹</button>
+  <button class="succ" type="button" aria-label="Foto successiva">›</button>
+</dialog>
+
 <script>
-  try{document.getElementById('anno').textContent=new Date().getFullYear();}catch(e){}
+/* ============ IMPOSTAZIONI (le uniche righe da cambiare a mano) ============
+   WHATSAPP: il tuo numero con il prefisso 39, senza spazi né +  (es. "393401234567").
+   Lasciato vuoto, i tasti WhatsApp non compaiono. */
+const WHATSAPP = "393381155218";
+const WA_TESTO = "Ciao Manuel, ho visto il sito di Malfer Studio. Vorrei informazioni per il mio locale: ";
+/* ========================================================================== */
+
+document.getElementById("anno").textContent = new Date().getFullYear();
+
+// Tasti WhatsApp
+if (WHATSAPP) {
+  const url = "https://wa.me/" + WHATSAPP.replace(/\D/g, "") + "?text=" + encodeURIComponent(WA_TESTO);
+  document.querySelectorAll("[data-wa]").forEach(a => {
+    a.href = url; a.target = "_blank"; a.rel = "noopener"; a.hidden = false;
+  });
+  // con WhatsApp attivo, l'email diventa secondaria
+  document.querySelectorAll("[data-email]").forEach(a => a.classList.add("vuoto"));
+}
+
+// Foto: elenco creato da strumenti/prepara-foto.ps1
+const lb = document.querySelector("dialog.lb");
+let foto = [], visibili = [], corrente = 0;
+
+fetch("foto/foto.json", { cache: "no-cache" })
+  .then(r => r.ok ? r.json() : null)
+  .then(d => {
+    if (!d) return;
+    if (d.copertina) {
+      const ap = document.querySelector(".apertura"), sf = ap.querySelector(".sfondo");
+      const img = new Image();
+      img.onload = () => { sf.style.backgroundImage = `url("${d.copertina}")`; ap.classList.add("con-foto"); };
+      img.src = d.copertina;
+    }
+    if (d.ritratto) {
+      const r = document.querySelector(".ritratto .foto");
+      r.style.backgroundImage = `url("${d.ritratto}")`; r.textContent = "";
+    }
+    foto = d.foto || [];
+    if (!foto.length) return;
+    document.getElementById("lavori").hidden = false;
+    document.querySelector("[data-se-lavori]").hidden = false;
+    const cats = [...new Set(foto.map(f => f.cat).filter(Boolean))];
+    if (cats.length > 1) {
+      const box = document.querySelector(".filtri");
+      box.hidden = false;
+      box.innerHTML = ["Tutte", ...cats].map((c, i) =>
+        `<button type="button" aria-pressed="${i === 0}" data-cat="${i === 0 ? "" : c}">${c}</button>`).join("");
+      box.addEventListener("click", e => {
+        const b = e.target.closest("button"); if (!b) return;
+        box.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b));
+        disegna(b.dataset.cat);
+      });
+    }
+    disegna("");
+  })
+  .catch(() => {});
+
+function disegna(cat) {
+  visibili = foto.filter(f => !cat || f.cat === cat);
+  const g = document.querySelector(".galleria");
+  g.innerHTML = visibili.map((f, i) =>
+    `<button type="button" data-i="${i}" aria-label="Ingrandisci: ${f.alt}"><figure style="margin:0">
+      <img src="${f.mini}" width="${f.w}" height="${f.h}" alt="${f.alt}" loading="lazy" decoding="async">
+      <figcaption>${f.alt}</figcaption></figure></button>`).join("");
+}
+
+document.querySelector(".galleria").addEventListener("click", e => {
+  const b = e.target.closest("button[data-i]"); if (!b) return;
+  apri(+b.dataset.i);
+});
+function apri(i) {
+  corrente = (i + visibili.length) % visibili.length;
+  const f = visibili[corrente];
+  lb.querySelector("img").src = f.grande;
+  lb.querySelector("img").alt = f.alt;
+  lb.querySelector("figcaption").textContent = f.alt;
+  if (!lb.open) lb.showModal();
+}
+lb.querySelector(".chiudi").onclick = () => lb.close();
+lb.querySelector(".prec").onclick = () => apri(corrente - 1);
+lb.querySelector(".succ").onclick = () => apri(corrente + 1);
+lb.addEventListener("click", e => { if (e.target === lb || e.target.tagName === "FIGURE") lb.close(); });
+lb.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft") apri(corrente - 1);
+  if (e.key === "ArrowRight") apri(corrente + 1);
+});
+let x0 = null;
+lb.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; }, { passive: true });
+lb.addEventListener("touchend", e => {
+  if (x0 === null) return;
+  const dx = e.changedTouches[0].clientX - x0; x0 = null;
+  if (Math.abs(dx) > 50) apri(corrente + (dx < 0 ? 1 : -1));
+});
 </script>
 </body>
 </html>
