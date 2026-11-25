@@ -16,3 +16,7 @@ Senza foto il sito funziona lo stesso: la sezione "Lavori" resta nascosta.
 ## Numero WhatsApp
 
 In `index.html`, in fondo, la riga `const WHATSAPP = "";` → es. `"393401234567"`. Vuoto = niente tasti WhatsApp.
+
+## Check-up gratuito
+
+`studio.malfer.it/checkup/` (non indicizzata, nessun link dal sito): modulo da compilare dal telefono nel locale, report in PDF e riassunto su WhatsApp. I check-up restano salvati solo nel browser del dispositivo usato. Voci e consigli: costante `SEZIONI` in `checkup/index.html`.

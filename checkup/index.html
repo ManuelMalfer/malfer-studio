@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Check-up visibilità · Malfer Studio</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="theme-color" content="#16181A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2316181A'/%3E%3Cpath d='M14 24V14h10M40 14h10v10M50 40v10H40M24 50H14V40' fill='none' stroke='%23C2412D' stroke-width='5'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Arial Black,Arial' font-weight='900' font-size='24' fill='%23F4F2EE'%3EM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --grafite:#16181A; --carta:#F4F2EE; --sabbia:#EAE6DE; --linea:#D9D4CA;
+    --pomodoro:#C2412D; --testo-medio:#4A4D50; --chiaro:#D8D5CE;
+    --ok:#1F8F4E; --meh:#D08A12; --no:#C2412D; --wa:#1F8F4E;
+    --display:"Archivo","Arial Black",Arial,sans-serif;
+    --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--carta);color:var(--grafite);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-text-size-adjust:100%}
+  button,input,select,textarea{font:inherit;color:inherit}
+  a{color:inherit}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px}
+
+  header{position:sticky;top:0;z-index:10;background:var(--grafite);color:var(--carta);padding-top:env(safe-area-inset-top,0px)}
+  .barra{display:flex;align-items:center;gap:10px;height:56px}
+  .barra h1{margin:0;font-family:var(--display);font-weight:800;font-size:1.05rem;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .barra h1 small{display:block;font-family:var(--body);font-weight:400;font-size:.72rem;color:var(--chiaro)}
+  .tab{background:transparent;border:1px solid #4A4D50;color:var(--chiaro);border-radius:99px;padding:6px 12px;font-size:.86rem;cursor:pointer}
+  .tab[aria-pressed="true"]{background:var(--carta);color:var(--grafite);border-color:var(--carta)}
+
+  main{padding:20px 0 calc(110px + env(safe-area-inset-bottom,0px))}
+  h2{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:28px 0 4px}
+  h2:first-child{margin-top:0}
+  .sotto{margin:0 0 14px;color:var(--testo-medio);font-size:.93rem}
+  .carta{background:#fff;border:1px solid var(--linea);border-radius:10px;padding:16px}
+  .campi{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .campi label{display:flex;flex-direction:column;gap:4px;font-size:.82rem;font-weight:600;color:var(--testo-medio)}
+  .campi .largo{grid-column:1/-1}
+  input,select,textarea{width:100%;border:1px solid var(--linea);border-radius:8px;padding:10px 12px;background:#fff;font-size:16px;font-weight:400;color:var(--grafite)}
+  textarea{min-height:70px;resize:vertical}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--pomodoro);outline-offset:0;border-color:transparent}
+  @media (max-width:520px){ .campi{grid-template-columns:1fr} }
+
+  .rapidi{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+  .rapidi a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:.86rem;font-weight:600;background:var(--grafite);color:var(--carta);padding:8px 12px;border-radius:99px}
+
+  .voce{background:#fff;border:1px solid var(--linea);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+  .voce .t{font-weight:600}
+  .voce .aiuto{font-size:.82rem;color:var(--testo-medio);margin-top:2px}
+  .scelte{display:flex;gap:6px;margin-top:10px}
+  .scelte button{flex:1;border:1px solid var(--linea);background:#fff;border-radius:8px;padding:9px 4px;font-size:.85rem;font-weight:600;cursor:pointer;color:var(--testo-medio)}
+  .scelte button[data-v="na"]{flex:.6;font-weight:400}
+  .scelte button.on[data-v="ok"]{background:var(--ok);border-color:var(--ok);color:#fff}
+  .scelte button.on[data-v="meh"]{background:var(--meh);border-color:var(--meh);color:#fff}
+  .scelte button.on[data-v="no"]{background:var(--no);border-color:var(--no);color:#fff}
+  .scelte button.on[data-v="na"]{background:#8C8F91;border-color:#8C8F91;color:#fff}
+  .voce .nota{margin-top:8px;font-size:.9rem;padding:8px 10px;display:none}
+  .voce.aperta .nota{display:block}
+  .voce .piu{background:none;border:0;padding:0;margin-top:6px;font-size:.8rem;color:var(--pomodoro);cursor:pointer}
+
+  .fondo{position:fixed;left:0;right:0;bottom:0;z-index:10;background:rgba(244,242,238,.96);border-top:1px solid var(--linea);padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px));-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  .fondo .wrap{display:flex;align-items:center;gap:12px}
+  .fondo .punti{flex:1;font-size:.85rem;color:var(--testo-medio)}
+  .fondo .punti b{font-family:var(--display);font-size:1.3rem;color:var(--grafite)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:8px;padding:12px 18px;font-weight:600;background:var(--pomodoro);color:#fff;cursor:pointer;text-decoration:none}
+  .btn.scuro{background:var(--grafite)}
+  .btn.wa{background:var(--wa)}
+  .btn.vuoto{background:transparent;color:var(--grafite);border:1px solid var(--grafite)}
+
+  /* elenco */
+  .riga{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--linea);border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer}
+  .riga .pt{font-family:var(--display);font-weight:800;font-size:1.2rem;width:48px;text-align:center}
+  .riga .n{flex:1}
+  .riga .n b{display:block}
+  .riga .n span{font-size:.82rem;color:var(--testo-medio)}
+  .riga .via{background:none;border:0;color:#8C8F91;font-size:1.3rem;cursor:pointer;padding:4px 8px}
+  .vuota{color:var(--testo-medio);text-align:center;padding:30px 10px}
+  .avviso{font-size:.82rem;color:var(--testo-medio);margin-top:18px}
+
+  /* report */
+  .rep{background:#fff;border:1px solid var(--linea);border-radius:10px;padding:clamp(18px,5vw,40px)}
+  .rep .testa{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;border-bottom:3px solid var(--grafite);padding-bottom:16px}
+  .rep .logo{font-family:var(--display);font-weight:800;line-height:1;text-align:right;font-size:1rem;letter-spacing:.03em}
+  .rep .logo small{display:block;font-weight:500;font-size:.5rem;letter-spacing:.6em;margin-top:3px}
+  .rep h3{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(1.4rem,5vw,1.9rem);line-height:1.1}
+  .rep .meta{color:var(--testo-medio);font-size:.88rem;margin-top:4px}
+  .rep h4{font-family:var(--display);font-weight:800;font-size:1.05rem;margin:26px 0 10px}
+  .totale{display:flex;align-items:center;gap:18px;margin-top:20px}
+  .cerchio{--p:0;--c:var(--no);width:104px;height:104px;border-radius:50%;flex:none;background:conic-gradient(var(--c) calc(var(--p)*1%),#ECE8E0 0);display:grid;place-items:center}
+  .cerchio span{width:80px;height:80px;border-radius:50%;background:#fff;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.7rem}
+  .totale p{margin:0;font-size:.95rem}
+  .barre{display:grid;gap:10px}
+  .barra-s{display:grid;grid-template-columns:130px 1fr 44px;gap:10px;align-items:center;font-size:.9rem}
+  .barra-s .bg{height:10px;background:#ECE8E0;border-radius:99px;overflow:hidden}
+  .barra-s .bg i{display:block;height:100%;border-radius:99px}
+  .barra-s b{text-align:right;font-family:var(--display)}
+  .rep ol,.rep ul{margin:0;padding-left:1.2em}
+  .rep li{margin-bottom:10px}
+  .rep li b{display:block}
+  .rep li span{color:var(--testo-medio);font-size:.93rem}
+  .rep ul.bene li{margin-bottom:4px}
+  .rep .firma{margin-top:30px;padding-top:16px;border-top:1px solid var(--linea);font-size:.9rem;color:var(--testo-medio)}
+  .azioni-rep{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+  @media (max-width:520px){ .barra-s{grid-template-columns:100px 1fr 38px} }
+
+  [hidden]{display:none!important}
+
+  @media print{
+    @page{margin:14mm}
+    body{background:#fff;font-size:11pt}
+    header,.fondo,.azioni-rep,.solo-schermo{display:none!important}
+    main{padding:0}
+    .wrap{max-width:none;padding:0}
+    .rep{border:0;padding:0}
+    .cerchio,.barra-s .bg i{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .rep li{break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap barra">
+    <h1 id="titolo">Check-up<small>Malfer Studio</small></h1>
+    <button class="tab" data-vista="elenco" type="button">Elenco</button>
+    <button class="tab" data-vista="modulo" type="button">Modulo</button>
+    <button class="tab" data-vista="report" type="button">Report</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- ELENCO -->
+  <section id="v-elenco" hidden>
+    <h2>I tuoi check-up</h2>
+    <p class="sotto">Restano salvati solo su questo telefono o PC. Il report si salva in PDF o si manda su WhatsApp.</p>
+    <div id="lista"></div>
+    <button class="btn" id="nuovo" type="button" style="width:100%;margin-top:8px">+ Nuovo check-up</button>
+  </section>
+
+  <!-- MODULO -->
+  <section id="v-modulo" hidden>
+    <div id="modulo"></div>
+  </section>
+
+  <!-- REPORT -->
+  <section id="v-report" hidden>
+    <div class="rep" id="report"></div>
+    <div class="azioni-rep">
+      <button class="btn scuro" id="stampa" type="button">Salva in PDF / Stampa</button>
+      <button class="btn wa" id="manda" type="button">Manda il riassunto su WhatsApp</button>
+      <button class="btn vuoto" data-vista="modulo" type="button">Torna al modulo</button>
+    </div>
+    <p class="avviso solo-schermo">Su iPhone: "Salva in PDF" apre la stampa; tocca Condividi (in alto) e scegli "Salva su File" o WhatsApp.</p>
+  </section>
+</main>
+
+<div class="fondo" id="fondo" hidden>
+  <div class="wrap">
+    <div class="punti">Punteggio <b id="punti">–</b><br><span id="fatti">0 voci su 0</span></div>
+    <button class="btn" data-vista="report" type="button">Vedi il report</button>
+  </div>
+</div>
+
+<script>
+/* ============ DATI DEL CHECK-UP ============
+   peso = quanto conta la voce nella sua sezione.
+   consiglio = cosa compare nel report se la voce è "Da migliorare" o "Manca". */
+const MIO = { nome: "Manuel Malfer", studio: "Malfer Studio", tel: "338 115 5218", wa: "393381155218", email: "webmalfer@gmail.com", sito: "studio.malfer.it" };
+
+const SEZIONI = [
+  { id: "mappa", t: "Google Maps", peso: 25, sotto: "Cerca dal telefono, nel locale: è la ricerca dei clienti che sono in zona.", rapidi: ["google", "maps"], voci: [
+    { id: "pos", peso: 3, t: "Compare tra i primi 3 sulla mappa", aiuto: "Cerca «{ricerca}». Da migliorare = tra il 4° e il 10° posto.", consiglio: "Lavorare la scheda Google (foto, recensioni, post): è da lì che arrivano chiamate e prenotazioni di chi è in zona." },
+    { id: "nome", peso: 1, t: "Cercando il nome del locale esce subito la scheda giusta", aiuto: "Senza doppioni o schede vecchie.", consiglio: "Sistemare o far chiudere le schede doppie o vecchie, così chi vi cerca trova subito quella giusta." }
+  ]},
+  { id: "scheda", t: "Scheda Google", peso: 30, sotto: "Apri la scheda del locale su Google Maps.", voci: [
+    { id: "verif", peso: 2, t: "La scheda è del titolare (verificata)", aiuto: "Chiedi se riesce a modificarla dal suo telefono.", consiglio: "Verificare la scheda a nome del locale, così solo voi potete modificarla e rispondere alle recensioni." },
+    { id: "cat", peso: 2, t: "Categoria giusta e precisa", aiuto: "Es. «Pizzeria», non solo «Ristorante».", consiglio: "Scegliere la categoria principale più precisa e aggiungere quelle secondarie: Google mostra la scheda per le ricerche giuste." },
+    { id: "orari", peso: 2, t: "Orari giusti, anche festivi e chiusure", aiuto: "Controlla anche i giorni di riposo.", consiglio: "Aggiornare gli orari, compresi festivi e ferie: un cliente che trova chiuso non torna." },
+    { id: "foto", peso: 3, t: "Almeno 20 foto belle e recenti", aiuto: "Piatti, sala, esterno, staff. Contano le foto caricate dal locale.", consiglio: "Servizio fotografico e foto nuove ogni mese: le schede con belle foto ricevono molte più visite e chiamate." },
+    { id: "menu", peso: 2, t: "Menu presente nella scheda", aiuto: "Scritto o come link, non solo foto di clienti.", consiglio: "Inserire il menu nella scheda: è una delle prime cose che le persone guardano." },
+    { id: "rec", peso: 3, t: "Tante recensioni e recenti", aiuto: "Da migliorare = meno di 100, o l'ultima più vecchia di un mese.", consiglio: "Un QR code sul tavolo e sul conto per chiedere la recensione ai clienti contenti: è ciò che fa salire di più sulla mappa." },
+    { id: "voto", peso: 2, t: "Voto medio 4,5 o più", aiuto: "Da migliorare = tra 4,0 e 4,4.", consiglio: "Più recensioni dai clienti soddisfatti alzano la media; capire dalle negative cosa si ripete." },
+    { id: "risp", peso: 2, t: "Il titolare risponde alle recensioni", aiuto: "Anche alle negative.", consiglio: "Rispondere a tutte le recensioni, anche alle negative, con calma e cortesia: Google e i clienti lo notano." },
+    { id: "post", peso: 1, t: "Post o novità nell'ultimo mese", aiuto: "Sezione «Aggiornamenti» della scheda.", consiglio: "Un post a settimana sulla scheda (piatto del giorno, eventi, feste): mostra a Google che il locale è vivo." },
+    { id: "descr", peso: 1, t: "Descrizione completa", aiuto: "Cosa vi rende speciali, tipo di cucina, servizi.", consiglio: "Scrivere una descrizione chiara con tipo di cucina, specialità e servizi (terrazza, parcheggio, bambini)." }
+  ]},
+  { id: "sito", t: "Sito", peso: 20, sotto: "Apri il sito dal telefono.", voci: [
+    { id: "esiste", peso: 2, t: "Ha un sito collegato alla scheda Google", aiuto: "Una pagina Facebook non conta come sito.", consiglio: "Un sito semplice e veloce collegato alla scheda: dà più fiducia e informazioni a Google e alle IA." },
+    { id: "veloce", peso: 2, t: "Si apre in pochi secondi sul telefono", aiuto: "Prova con i dati, non col Wi-Fi.", consiglio: "Un sito leggero che si apre subito: chi aspetta più di 3 secondi torna indietro." },
+    { id: "menutxt", peso: 3, t: "Menu scritto come testo", aiuto: "Manca = solo foto o PDF del menu.", consiglio: "Menu scritto come testo nel sito: lo leggono Google e le intelligenze artificiali, una foto o un PDF quasi no." },
+    { id: "contatti", peso: 2, t: "Tasti per chiamare, WhatsApp o prenotare ben visibili", aiuto: "Senza dover cercare.", consiglio: "Tasti grandi per chiamare e prenotare su WhatsApp, sempre visibili sul telefono." },
+    { id: "fotositi", peso: 1, t: "Foto belle e aggiornate", aiuto: "", consiglio: "Rinnovare le foto del sito con quelle del servizio fotografico." },
+    { id: "lingue", peso: 1, t: "Inglese o tedesco per i turisti", aiuto: "Se il locale lavora con i turisti.", consiglio: "Aggiungere inglese e tedesco: sul Garda e in Trentino molti clienti arrivano da fuori." }
+  ]},
+  { id: "ia", t: "Intelligenza artificiale", peso: 15, sotto: "Chiedi all'IA come farebbe un turista.", rapidi: ["chatgpt", "perplexity"], voci: [
+    { id: "nomina", peso: 3, t: "ChatGPT nomina il locale", aiuto: "Chiedi «dove mangiare {tipo} a {paese}». Da migliorare = solo chiedendo di più.", consiglio: "Rendere complete e coerenti le informazioni online (scheda, sito, TripAdvisor): sono le fonti da cui le IA scelgono chi consigliare." },
+    { id: "giuste", peso: 2, t: "Le informazioni dell'IA sono giuste", aiuto: "Orari, tipo di cucina, prezzi.", consiglio: "Correggere le informazioni sbagliate alla fonte (scheda, sito, portali): le IA ripetono quello che trovano." },
+    { id: "coer", peso: 2, t: "Nome, indirizzo e telefono uguali dappertutto", aiuto: "Google, sito, TripAdvisor, TheFork, Facebook.", consiglio: "Usare gli stessi nome, indirizzo e telefono su tutti i siti: Google e le IA si fidano di più." }
+  ]},
+  { id: "social", t: "Social e portali", peso: 10, sotto: "Instagram, Facebook, TripAdvisor, TheFork.", voci: [
+    { id: "ig", peso: 2, t: "Instagram attivo (post nell'ultimo mese)", aiuto: "", consiglio: "Pubblicare con costanza su Instagram, 2-3 volte a settimana, con un calendario mensile." },
+    { id: "igfoto", peso: 2, t: "Foto curate e riconoscibili", aiuto: "", consiglio: "Foto e stile coerenti: il profilo diventa la vetrina del locale." },
+    { id: "fb", peso: 1, t: "Facebook aggiornato (orari, eventi)", aiuto: "", consiglio: "Tenere aggiornati orari ed eventi su Facebook: molti clienti della zona lo usano ancora." },
+    { id: "portali", peso: 1, t: "TripAdvisor e TheFork aggiornati, con risposte", aiuto: "", consiglio: "Aggiornare TripAdvisor e TheFork e rispondere alle recensioni anche lì." },
+    { id: "eventi", peso: 2, t: "Eventi e feste comunicati per tempo", aiuto: "Es. il menu di Natale almeno 3-4 settimane prima.", consiglio: "Annunciare eventi e menu delle feste con 3-4 settimane di anticipo, con una piccola sponsorizzazione locale." }
+  ]}
+];
+const STATI = { ok: "Ok", meh: "Da migliorare", no: "Manca", na: "Non serve" };
+const VAL = { ok: 1, meh: .5, no: 0 };
+// se il sito non c'è, le altre voci del sito non contano (sono tutte nel "crea il sito")
+function stato(c, s, v) { const st = c.stati[s.id + "." + v.id]; return (s.id === "sito" && v.id !== "esiste" && c.stati["sito.esiste"] === "no") ? undefined : st; }
+/* ========================================== */
+
+const KEY = "malfer-checkup-v1";
+let db = { lista: [] };
+try { db = JSON.parse(localStorage.getItem(KEY)) || db; } catch (e) {}
+function salva() { try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (e) {} }
+
+let cur = null, vista = "elenco";
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const oggi = () => new Date().toISOString().slice(0, 10);
+const dataIt = iso => iso ? iso.split("-").reverse().join("/") : "";
+
+function nuovo() {
+  cur = { id: Date.now().toString(36), dati: { data: oggi(), tipo: "ristorante" }, stati: {}, note: {}, agg: Date.now() };
+  db.lista.unshift(cur); salva(); mostra("modulo");
+}
+
+function punteggio(c) {
+  let tot = 0, pesi = 0, fatte = 0, totali = 0;
+  const sez = SEZIONI.map(s => {
+    let p = 0, w = 0;
+    s.voci.forEach(v => {
+      totali++;
+      const st = stato(c, s, v);
+      const saltata = s.id === "sito" && v.id !== "esiste" && c.stati["sito.esiste"] === "no";
+      if (c.stati[s.id + "." + v.id] || saltata) fatte++;
+      if (st in VAL) { p += VAL[st] * v.peso; w += v.peso; }
+    });
+    const val = w ? p / w : null;
+    if (val !== null) { tot += val * s.peso; pesi += s.peso; }
+    return { s, val };
+  });
+  return { tot: pesi ? Math.round(tot / pesi * 100) : null, sez, fatte, totali };
+}
+
+function testo(t, c) {
+  const d = c.dati;
+  return t.replace("{ricerca}", d.ricerca || (d.tipo || "ristorante") + " " + (d.paese || ""))
+          .replace("{paese}", d.paese || "…").replace("{tipo}", d.tipo || "");
+}
+
+function rapido(k, c) {
+  const d = c.dati, q = d.ricerca || ((d.tipo || "ristorante") + " " + (d.paese || ""));
+  const domanda = `Dove mangiare ${d.tipo || ""} a ${d.paese || ""}? Consigliami i migliori locali.`.replace(/\s+/g, " ");
+  const L = {
+    google: ["Cerca su Google", "https://www.google.com/search?q=" + encodeURIComponent(q)],
+    maps: ["Apri Maps", "https://www.google.com/maps/search/" + encodeURIComponent(q)],
+    chatgpt: ["Chiedi a ChatGPT", "https://chatgpt.com/?q=" + encodeURIComponent(domanda)],
+    perplexity: ["Chiedi a Perplexity", "https://www.perplexity.ai/search?q=" + encodeURIComponent(domanda)]
+  };
+  return `<a href="${L[k][1]}" target="_blank" rel="noopener">↗ ${L[k][0]}</a>`;
+}
+
+function disegnaModulo() {
+  const c = cur, d = c.dati;
+  let h = `<h2>Il locale</h2><p class="sotto">Compila prima questi dati: servono per le ricerche veloci.</p>
+  <div class="carta campi">
+    <label class="largo">Nome del locale<input data-d="nome" value="${esc(d.nome)}" placeholder="es. Pizzeria Al Porto"></label>
+    <label>Paese<input data-d="paese" value="${esc(d.paese)}" placeholder="es. Riva del Garda"></label>
+    <label>Tipo<select data-d="tipo">${["ristorante","pizzeria","bar","hotel","agriturismo","pasticceria","birreria"].map(t => `<option ${t === d.tipo ? "selected" : ""}>${t}</option>`).join("")}</select></label>
+    <label class="largo">Ricerca da provare<input data-d="ricerca" value="${esc(d.ricerca)}" placeholder="es. pizzeria Riva del Garda"></label>
+    <label>Titolare / referente<input data-d="ref" value="${esc(d.ref)}"></label>
+    <label>Data<input type="date" data-d="data" value="${esc(d.data)}"></label>
+  </div>`;
+  SEZIONI.forEach(s => {
+    h += `<h2>${s.t}</h2><p class="sotto">${s.sotto}</p>`;
+    if (s.rapidi) h += `<div class="rapidi">${s.rapidi.map(k => rapido(k, c)).join("")}</div>`;
+    s.voci.forEach(v => {
+      const k = s.id + "." + v.id, st = c.stati[k], nota = c.note[k] || "";
+      h += `<div class="voce ${nota ? "aperta" : ""}" data-k="${k}">
+        <div class="t">${esc(testo(v.t, c))}</div>
+        ${v.aiuto ? `<div class="aiuto">${esc(testo(v.aiuto, c))}</div>` : ""}
+        <div class="scelte">${Object.keys(STATI).map(x => `<button type="button" data-v="${x}" class="${st === x ? "on" : ""}">${STATI[x]}</button>`).join("")}</div>
+        <button type="button" class="piu">${nota ? "" : "+ nota"}</button>
+        <textarea class="nota" placeholder="Nota (compare nel report)">${esc(nota)}</textarea>
+      </div>`;
+    });
+    if (s.id === "mappa") h += `<div class="carta campi" style="margin-top:4px"><label class="largo">Chi compare nei primi 3 (concorrenti)<input data-d="conc" value="${esc(d.conc)}" placeholder="es. Da Mario, Pizzeria Lago"></label></div>`;
+  });
+  h += `<h2>Osservazioni</h2><div class="carta campi"><label class="largo">Note generali per il titolare<textarea data-d="oss" placeholder="es. Il locale è molto bello ma online non si vede.">${esc(d.oss)}</textarea></label></div>`;
+  $("#modulo").innerHTML = h;
+  aggiornaFondo();
+}
+
+function aggiornaFondo() {
+  const p = punteggio(cur);
+  $("#punti").textContent = p.tot === null ? "–" : p.tot + "/100";
+  $("#fatti").textContent = `${p.fatte} voci su ${p.totali}`;
+}
+
+$("#modulo").addEventListener("click", e => {
+  const b = e.target.closest(".scelte button");
+  const voce = e.target.closest(".voce");
+  if (b && voce) {
+    const k = voce.dataset.k;
+    cur.stati[k] = cur.stati[k] === b.dataset.v ? undefined : b.dataset.v;
+    voce.querySelectorAll(".scelte button").forEach(x => x.classList.toggle("on", x.dataset.v === cur.stati[k]));
+    cur.agg = Date.now(); salva(); aggiornaFondo();
+  } else if (e.target.closest(".piu") && voce) {
+    voce.classList.add("aperta"); e.target.textContent = ""; voce.querySelector(".nota").focus();
+  }
+});
+$("#modulo").addEventListener("input", e => {
+  const t = e.target;
+  if (t.dataset.d) {
+    cur.dati[t.dataset.d] = t.value;
+    if (t.dataset.d === "paese" || t.dataset.d === "tipo") {
+      const r = $('[data-d="ricerca"]');
+      if (!cur.dati.ricercaMano) { cur.dati.ricerca = ((cur.dati.tipo || "") + " " + (cur.dati.paese || "")).trim(); r.value = cur.dati.ricerca; }
+    }
+    if (t.dataset.d === "ricerca") cur.dati.ricercaMano = !!t.value;
+  } else if (t.classList.contains("nota")) {
+    cur.note[t.closest(".voce").dataset.k] = t.value;
+  }
+  cur.agg = Date.now(); salva(); titolo();
+});
+$("#modulo").addEventListener("change", e => {
+  // aggiorna i link veloci e i testi con il paese/tipo nuovi
+  if (["paese", "tipo", "ricerca"].includes(e.target.dataset.d)) {
+    const y = scrollY; disegnaModulo(); scrollTo(0, y);
+  }
+});
+
+function colore(v) { return v >= 70 ? "var(--ok)" : v >= 45 ? "var(--meh)" : "var(--no)"; }
+
+function disegnaReport() {
+  const c = cur, d = c.dati, p = punteggio(c);
+  const da = [], bene = [];
+  SEZIONI.forEach(s => s.voci.forEach(v => {
+    const k = s.id + "." + v.id, st = stato(c, s, v);
+    const peso = s.peso * v.peso;
+    if (st === "no" || st === "meh") da.push({ v, s, st, k, ord: peso * (st === "no" ? 2 : 1) });
+    if (st === "ok") bene.push(testo(v.t, c));
+  }));
+  da.sort((a, b) => b.ord - a.ord);
+  const subito = da.slice(0, 5), poi = da.slice(5);
+  const voce = x => `<li><b>${esc(testo(x.v.t, c))} · ${x.st === "no" ? "da sistemare" : "da migliorare"}</b><span>${esc(x.v.consiglio)}${c.note[x.k] ? `<br><i>Nota: ${esc(c.note[x.k])}</i>` : ""}</span></li>`;
+  const giudizio = p.tot === null ? "Check-up non ancora compilato." :
+    p.tot >= 75 ? "Buona presenza online: si tratta di mantenerla e farla crescere." :
+    p.tot >= 50 ? "Il locale si trova, ma perde clienti che oggi scelgono i concorrenti." :
+    "Online il locale si vede poco: ci sono margini di miglioramento importanti.";
+
+  $("#report").innerHTML = `
+    <div class="testa">
+      <div><h3>Check-up della visibilità online</h3>
+        <div class="meta"><b>${esc(d.nome || "Locale")}</b>${d.paese ? " · " + esc(d.paese) : ""}<br>${dataIt(d.data)}${d.ref ? " · per " + esc(d.ref) : ""}</div></div>
+      <div class="logo">MALFER<small>STUDIO</small></div>
+    </div>
+    <div class="totale">
+      <div class="cerchio" style="--p:${p.tot || 0};--c:${colore(p.tot || 0)}"><span>${p.tot ?? "–"}</span></div>
+      <p><b>Punteggio su 100.</b><br>${giudizio}${d.ricerca ? `<br><span style="color:var(--testo-medio);font-size:.88rem">Ricerca provata: «${esc(d.ricerca)}»</span>` : ""}</p>
+    </div>
+    <h4>Per area</h4>
+    <div class="barre">${p.sez.map(x => `<div class="barra-s"><span>${x.s.t}</span><div class="bg"><i style="width:${x.val === null ? 0 : Math.round(x.val * 100)}%;background:${colore(x.val * 100)}"></i></div><b>${x.val === null ? "–" : Math.round(x.val * 100)}</b></div>`).join("")}</div>
+    ${d.conc ? `<h4>Chi compare oggi al vostro posto</h4><p style="margin:0">${esc(d.conc)}</p>` : ""}
+    ${subito.length ? `<h4>Cosa farei subito</h4><ol>${subito.map(voce).join("")}</ol>` : ""}
+    ${poi.length ? `<h4>Poi</h4><ol start="${subito.length + 1}">${poi.map(voce).join("")}</ol>` : ""}
+    ${bene.length ? `<h4>Cosa va già bene</h4><ul class="bene">${bene.map(b => `<li>${esc(b)}</li>`).join("")}</ul>` : ""}
+    ${d.oss ? `<h4>Osservazioni</h4><p style="margin:0;white-space:pre-line">${esc(d.oss)}</p>` : ""}
+    <div class="firma"><b>${MIO.nome} · ${MIO.studio}</b><br>Tel. e WhatsApp ${MIO.tel} · ${MIO.email} · ${MIO.sito}</div>`;
+}
+
+function riassunto() {
+  const c = cur, d = c.dati, p = punteggio(c);
+  const da = [];
+  SEZIONI.forEach(s => s.voci.forEach(v => {
+    const st = stato(c, s, v);
+    if (st === "no" || st === "meh") da.push({ t: testo(v.t, c), ord: s.peso * v.peso * (st === "no" ? 2 : 1) });
+  }));
+  da.sort((a, b) => b.ord - a.ord);
+  return `Ciao${d.ref ? " " + d.ref : ""}, ecco il check-up della visibilità online di ${d.nome || "del locale"}.\n\n` +
+    `Punteggio: ${p.tot ?? "–"}/100\n` +
+    p.sez.filter(x => x.val !== null).map(x => `• ${x.s.t}: ${Math.round(x.val * 100)}`).join("\n") +
+    (da.length ? `\n\nLe prime cose da sistemare:\n` + da.slice(0, 3).map((x, i) => `${i + 1}. ${x.t}`).join("\n") : "") +
+    `\n\nTi mando il report completo in PDF. Se vuoi ne parliamo con calma.\n${MIO.nome} · ${MIO.studio}`;
+}
+
+function disegnaElenco() {
+  const l = db.lista;
+  $("#lista").innerHTML = l.length ? l.map(c => {
+    const p = punteggio(c);
+    return `<div class="riga" data-id="${c.id}">
+      <div class="pt" style="color:${p.tot === null ? "#8C8F91" : colore(p.tot)}">${p.tot ?? "–"}</div>
+      <div class="n"><b>${esc(c.dati.nome || "Senza nome")}</b><span>${esc(c.dati.paese || "")} · ${dataIt(c.dati.data)}</span></div>
+      <button class="via" type="button" aria-label="Elimina" data-via="${c.id}">×</button></div>`;
+  }).join("") : `<div class="vuota">Nessun check-up ancora.<br>Tocca «Nuovo check-up» quando sei nel locale.</div>`;
+}
+$("#lista").addEventListener("click", e => {
+  const via = e.target.closest("[data-via]");
+  if (via) {
+    const c = db.lista.find(x => x.id === via.dataset.via);
+    if (confirm(`Sei sicuro di voler eliminare il check-up di «${c.dati.nome || "senza nome"}»?`)) {
+      db.lista = db.lista.filter(x => x !== c); if (cur === c) cur = null; salva(); disegnaElenco();
+    }
+    return;
+  }
+  const r = e.target.closest(".riga");
+  if (r) { cur = db.lista.find(x => x.id === r.dataset.id); mostra("modulo"); }
+});
+$("#nuovo").onclick = nuovo;
+
+function titolo() {
+  $("#titolo").innerHTML = (cur && vista !== "elenco" ? esc(cur.dati.nome || "Nuovo check-up") : "Check-up") + "<small>Malfer Studio</small>";
+}
+function mostra(v) {
+  if (v !== "elenco" && !cur) v = "elenco";
+  vista = v;
+  ["elenco", "modulo", "report"].forEach(x => $("#v-" + x).hidden = x !== v);
+  document.querySelectorAll(".tab").forEach(t => {
+    t.setAttribute("aria-pressed", t.dataset.vista === v);
+    t.hidden = t.dataset.vista !== "elenco" && !cur;
+  });
+  $("#fondo").hidden = v !== "modulo";
+  if (v === "elenco") disegnaElenco();
+  if (v === "modulo") disegnaModulo();
+  if (v === "report") disegnaReport();
+  titolo(); scrollTo(0, 0);
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-vista]"); if (b) mostra(b.dataset.vista); });
+
+$("#stampa").onclick = () => {
+  const t = document.title;
+  document.title = "Check-up " + (cur.dati.nome || "") + " " + dataIt(cur.dati.data).replace(/\//g, "-");
+  window.print();
+  setTimeout(() => document.title = t, 1000);
+};
+$("#manda").onclick = () => window.open("https://wa.me/?text=" + encodeURIComponent(riassunto()), "_blank");
+
+mostra("elenco");
+</script>
+</body>
+</html>
